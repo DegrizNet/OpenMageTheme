@@ -1,0 +1,39 @@
+div.j2tajax-confirm div.j2tajax-checkout-img{
+    float:left; margin-right:5px;
+}
+
+div.j2tajax-confirm .success-msg {
+    background:none;
+    color:#222;
+    padding: 8px !important;
+    text-align:left;
+    border:none !important;
+}
+div.j2tajax-confirm, div.j2tajax-progress{ z-index: 199; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; padding: 20px;  text-align:center; -webkit-box-shadow: 2px 2px 6px 0px rgba(50, 50, 50, 0.75);
+-moz-box-shadow: 2px 2px 6px 0px rgba(50, 50, 50, 0.75); box-shadow: 2px 2px 6px 0px rgba(50, 50, 50, 0.75); }
+div.j2tajax-progress{padding:5px; z-index: 199;}
+
+
+div.j2t-overlay{
+    width: 100%;
+    height: 100%;
+    background: #99bea3;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 198;
+}
+div.j2tajax-confirm button.button { padding: 0px 15px; line-height: 36px; height: 36px; font-size: 15px; font-weight: bold; }
+.j2tajax-checkout-txt { text-align: center; font-size: 21px; line-height: 24px; font-weight: normal; }
+span.j2t-or{
+    display:none;
+}
+
+span.j2t-upsells-list-wrapper {display:block; text-align:left;}
+
+table.j2t-upsell-product-table {clear:both;}
+table td.j2t-upsells-list-item h5.j2t-product-lnk {}
+table td.j2t-upsells-list-item h5.j2t-product-lnk a {font-size: 11px; font-weight: normal;}
+h4.j2t-upsells-title {display:block; clear:both; padding-left:10px;padding-top:5px;}
+
+div.j2tajax-progress, div.j2tajax-confirm {background:#fff;}

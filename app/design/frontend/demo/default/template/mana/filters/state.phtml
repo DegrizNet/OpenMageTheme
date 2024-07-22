@@ -1,0 +1,45 @@
+<?php
+/**
+ * @category    Mana
+ * @package     Mana_Filters
+ * @copyright   Copyright (c) http://www.manadev.com
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php
+/**
+ * Category layered navigation state
+ *
+ * @see Mage_Catalog_Block_Layer_State
+ */
+/* @var $this Mage_Catalog_Block_Layer_State */
+?>
+<?php $_filters = $this->getActiveFilters() ?>
+<?php if(!empty($_filters)): ?>
+<div class="currently">
+
+    <div class="block-subtitle <?php echo Mage::helper('mana_filters')->renderHtml($this->getParentBlock(), 'currently_shopping_by') ? '' : 'hidden' ?>">
+        <div class="m-subtitle-actions">
+            <div class="m-expand-collapse">
+                <div class="btn-expand-collapse"></div>
+            </div>
+        </div>
+        <span><?php echo $this->__('Currently Shopping by:') ?></span>
+    </div>
+    <ol>
+    <?php foreach ($_filters as $_filter): ?>
+    <?php if ($_html = $this->getValueHtml($_filter)) : ?>
+        <?php echo $_html ?>
+    <?php else : ?>
+        <li>
+            <a href="<?php echo $_filter->getRemoveUrl() ?>" title="<?php echo $this->__('Remove This Item') ?>" class="btn-remove"><?php echo $this->__('Remove This Item') ?></a>
+            <span class="label"><?php echo $this->__($_filter->getName()) ?>:</span> <?php echo $_filter->getMShowSelected() ? $this->__('not') : '' ?> <?php echo $this->stripTags($_filter->getLabel()) ?>
+        </li>
+    <?php endif; ?>
+    <?php endforeach; ?>
+    </ol>
+    <?php if (!Mage::helper('mana_core')->isMageVersionEqualOrGreater('1.7') && ($_parent = $this->getParentBlock()) /*&& $_parent->getShowInFilter() != 'above_products'*/) : ?>
+    <div class="actions"><a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div>
+    <?php endif; ?>
+</div>
+<?php endif; ?>

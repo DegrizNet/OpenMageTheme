@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<default>
+		<reference name="head">
+			<action method="addJs" ifconfig="boughttogether/general/enabled"><script>jquery/jquery-1.4.2.min.js</script></action> 
+			<action method="addJs" ifconfig="boughttogether/general/enabled"><script>jquery/jquery-noconflict.js</script></action> 
+		</reference>
+	</default>
+    <catalog_product_view>
+		<reference name="product.info">
+            <block type="boughttogether/boughttogether" name="boughttogether" template="boughttogether/boughttogether.phtml">
+				<block type="boughttogether/boughttogether" name="script" template="boughttogether/script.phtml"></block>
+			</block>
+		</reference>
+	</catalog_product_view>
+</layout> 

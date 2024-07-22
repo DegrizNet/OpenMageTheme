@@ -1,0 +1,54 @@
+<?php $helper = Mage::helper('degriz_core');
+$processor = Mage::helper('cms')->getBlockTemplateProcessor(); ?>
+<?php echo $this->getChildHtml('fnewsletter') ?>
+<?php echo $this->getChildHtml('instagram') ?>
+<div class="noga">
+    <div class="container wrap">
+			<div class="povezave">
+				<div class="social blok">
+					<img data-src="<?php $logoSrc = Mage::getStoreConfig('design/header/logo_src'); echo $this->getSkinUrl($logoSrc); ?>" class="logo lazy" width="150" height="50" alt="<?php echo $logoAlt = Mage::getStoreConfig('design/header/logo_alt'); ?>" />
+					<?php if($helper->getFacebook() or $helper->getInstagram()) { ?>
+						<ul class="link">
+							<?php if($facebook = $helper->getFacebook()) {?><li class="facebook"><a href="<?php echo $facebook ?>" target="_blank" title="<?php echo $this->__('Facebook') ?>"><span><?php echo $this->__('Facebook') ?></span></a></li><?php } ?>
+							<?php if($instagram = $helper->getInstagram()) {?><li class="instagram"><a href="<?php echo $instagram ?>" target="_blank" title="<?php echo $this->__('Instagram') ?>"><span><?php echo $this->__('Instagram') ?></span></a></li><?php } ?>
+						</ul>
+					<?php } ?>
+					<?php if($about = $helper->getAboutContent()) {?>
+					<div class="aboutus std">
+						<?php echo $processor->filter($about); ?>
+					</div>
+					<?php } ?>
+				</div>
+				<?php if($helper->getFooterTitle1() or $helper->getFooterContent1()) { ?>
+				<div class="blok">
+					<?php if($footerTitle1 = $helper->getFooterTitle1()) {?><div class="title"><?php echo $footerTitle1 ?></div><?php } ?>
+					<?php if($footerContent1 = $helper->getFooterContent1()) {?><div class="std"><?php echo $processor->filter($footerContent1) ?></div><?php } ?>
+				</div>
+				<?php } ?>
+				<?php if($helper->getFooterTitle2() or $helper->getFooterContent2()) { ?>
+				<div class="blok">
+					<?php if($footerTitle2 = $helper->getFooterTitle2()) {?><div class="title"><?php echo $footerTitle2 ?></div><?php } ?>
+					<?php if($footerContent2 = $helper->getFooterContent2()) {?><div class="std"><?php echo $processor->filter($footerContent2) ?></div><?php } ?>
+				</div>
+				<?php } ?>
+				<?php if($helper->getFooterTitle3() or $helper->getFooterContent3()) { ?>
+				<div class="blok">
+					<?php if($footerTitle3 = $helper->getFooterTitle3()) {?><div class="title"><?php echo $footerTitle3 ?></div><?php } ?>
+					<?php if($footerContent3 = $helper->getFooterContent3()) {?><div class="std"><?php echo $processor->filter($footerContent3) ?></div><?php } ?>
+				</div>
+				<?php } ?>
+			</div>
+		</div>
+        <div class="container copy">
+			<div class="cards">
+				<div class="visa"></div>
+				<div class="mastercard"></div>
+				<div class="paypal"></div>
+			</div>
+			<?php echo $this->getChildHtml('footer_language') ?>
+			<address><?php echo $this->getCopyright() ?> <a href="<?php echo Mage::getBaseUrl().$this->__('authors'); ?>" title="<?php echo $this->__('Authors') ?>" class="degriz"><?php echo $this->__('Authors') ?></a></address>
+			<div class="clear"></div>
+        </div>
+	</div>
+</div>
+<?php echo $this->getChildHtml('cookielaw') ?>

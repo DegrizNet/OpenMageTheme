@@ -1,0 +1,28 @@
+<div id="back-ajax-add" class="back-ajax-add">
+    <button type="button" title="<?php echo $this->__('Continue shoppingg') ?>" class="button" onclick="hideJ2tOverlay();"><span><span><?php echo $this->__('Continue shopping') ?></span></span></button><br />
+	
+    <button type="button" title="<?php echo $this->__('View cart & checkout') ?>" style="margin-top: 10px;" class="button btn-cart" onclick="setLocation('<?php echo $this->getUrl('checkout/cart/'); ?>')"><span><span><?php echo $this->__('View cart & checkout') ?></span></span></button>
+</div>
+
+<div id="cart_content" class="cart_content"><?php
+$count = Mage::helper('checkout/cart')->getSummaryCount();
+
+if( $count == 1 ) {
+    echo $this->__('My Cart (%s item)', $count);
+} elseif( $count > 0 ) {
+    echo $this->__('My Cart (%s items)', $count);
+} else {
+    echo $this->__('My Cart');
+}
+?></div>
+
+<div class="cart_side_ajax">
+    <?php echo $this->getChildHtml('cart_sidebar_ajax') ?>
+</div>
+<div class="j2t_ajax_message">
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+</div>
+
+<div class="j2t_full_cart_content" id="j2t_full_cart_content">
+    <?php echo $this->getChildHtml('cart_content_ajax');?>
+</div>

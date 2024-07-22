@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+
+    <firecheckout_index_index translate="label">
+        <label>Fire Checkout</label>
+        <remove name="left"/>
+        <remove name="right"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>css/firecheckout.css</name></action>
+            <action method="addJs"><file>mage/directpost.js</file></action>
+            <action method="addJs"><script>mage/centinel.js</script></action>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+        </reference>
+        <reference name="content">
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+            <block type="firecheckout/checkout" name="firecheckout" template="firecheckout/checkout.phtml">
+                <block type="customer/form_login" name="customer.login" template="firecheckout/login.phtml"/>
+                <block type="customer/account_forgotpassword" name="customer.forgot" template="firecheckout/forgotpassword.phtml"/>
+                <block type="core/template" name="persistent.login" template="firecheckout/persistent.phtml"/>
+
+                <block type="firecheckout/checkout_billing" name="checkout.onepage.billing" as="billing.address">
+                    <action method="setTemplate"><template>firecheckout/checkout/billing.phtml</template></action>
+                </block>
+                <block type="firecheckout/checkout_shipping" name="checkout.onepage.shipping" as="shipping.address">
+                    <action method="setTemplate"><template>firecheckout/checkout/shipping.phtml</template></action>
+                </block>
+
+                <block type="checkout/onepage_shipping_method" name="checkout.onepage.shipping_method" as="shipping.method" template="firecheckout/checkout/shipping_method.phtml">
+                    <block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method.available" as="available" template="firecheckout/checkout/shipping_method/available.phtml"/>
+                    <block type="checkout/onepage_shipping_method_additional" name="checkout.onepage.shipping_method.additional" as="additional" template="firecheckout/checkout/shipping_method/additional.phtml"/>
+                    <block type="core/template" name="checkout.onepage.shipping_method.delivery_date" as="delivery_date">
+                        <action method="setTemplate" ifconfig="firecheckout/delivery_date/enabled"><template>firecheckout/checkout/shipping_method/delivery_date.phtml</template></action>
+                    </block>
+                </block>
+
+                <block type="checkout/onepage_payment" name="checkout.onepage.payment" as="payment.method" template="firecheckout/checkout/payment.phtml">
+                    <block type="checkout/onepage_payment_methods" name="checkout.payment.methods" as="methods" template="firecheckout/checkout/payment/methods.phtml">
+                        <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+                        <block type="core/template" name="checkout.onepage.payment.methods.scripts" as="scripts">
+                        </block>
+                        <block type="core/template" name="checkout.onepage.payment.methods.additional" as="additional" />
+                    </block>
+                    <block type="core/template" name="checkout.onepage.payment.additional" as="additional" />
+                    <block type="core/template" name="checkout.onepage.payment.methods_additional" as="methods_additional">
+                    </block>
+                </block>
+
+                <block type="checkout/cart_coupon" name="checkout.coupon" as="coupon">
+                    <action method="setTemplate" ifconfig="firecheckout/general/discount"><template>firecheckout/checkout/coupon.phtml</template></action>
+                </block>
+
+                <block type="checkout/onepage_review" name="checkout.onepage.review" as="review" template="firecheckout/checkout/review.phtml">
+                    <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="firecheckout/checkout/agreements.phtml"/>
+                    <block type="checkout/onepage_review_info" name="info" template="firecheckout/checkout/review/info.phtml">
+                        <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>firecheckout/checkout/review/item.phtml</template></action>
+                        <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>firecheckout/checkout/review/item.phtml</template></action>
+                        <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>firecheckout/checkout/review/item.phtml</template></action>
+                        <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>firecheckout/checkout/review/item.phtml</template></action>
+                        <action method="addItemRender"><type>downloadable</type><block>downloadable/checkout_cart_item_renderer</block><template>downloadable/checkout/onepage/review/item.phtml</template></action>
+                        <block type="checkout/cart_totals" name="checkout.onepage.review.info.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
+                        <block type="core/text_list" name="checkout.onepage.review.info.items.before" as="items_before" translate="label">
+                            <label>Items Before</label>
+                        </block>
+                        <block type="core/text_list" name="checkout.onepage.review.info.items.after" as="items_after" translate="label">
+                            <label>Items After</label>
+                        </block>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </firecheckout_index_index>
+
+    <checkout_cart_index>
+        <update handle="firecheckout_replace_checkout_links"/>
+    </checkout_cart_index>
+
+    <firecheckout_index_updatecheckout>
+        <remove name="right"/>
+        <remove name="left"/>
+        <block type="checkout/onepage_payment_methods" name="checkout.payment.method" template="firecheckout/checkout/payment/methods.phtml">
+            <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+            <block type="core/template" name="checkout.onepage.payment.methods.scripts" as="scripts">
+            </block>
+            <block type="core/template" name="checkout.onepage.payment.methods.additional" as="additional" />
+        </block>
+        <block type="checkout/onepage_shipping_method_available" name="checkout.shipping.method" template="firecheckout/checkout/shipping_method/available.phtml"/>
+        <block type="checkout/cart_coupon" name="checkout.coupon" as="coupon">
+            <action method="setTemplate" ifconfig="firecheckout/general/discount"><template>firecheckout/checkout/coupon.phtml</template></action>
+        </block>
+        <block type="checkout/onepage_review_info" name="checkout.review" template="firecheckout/checkout/review/info.phtml">
+            <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>firecheckout/checkout/review/item.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>firecheckout/checkout/review/item.phtml</template></action>
+            <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>firecheckout/checkout/review/item.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>firecheckout/checkout/review/item.phtml</template></action>
+            <action method="addItemRender"><type>downloadable</type><block>downloadable/checkout_cart_item_renderer</block><template>downloadable/checkout/onepage/review/item.phtml</template></action>
+            <block type="checkout/cart_totals" name="checkout.onepage.review.info.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
+            <block type="core/text_list" name="checkout.onepage.review.info.items.before" as="items_before" translate="label">
+                <label>Items Before</label>
+            </block>
+            <block type="core/text_list" name="checkout.onepage.review.info.items.after" as="items_after" translate="label">
+                <label>Items After</label>
+            </block>
+        </block>
+    </firecheckout_index_updatecheckout>
+
+    <firecheckout_index_saveorder>
+        <remove name="right"/>
+        <remove name="left"/>
+        <block type="centinel/authentication" name="centinel.frame" template="centinel/authentication.phtml">
+            <action method="addRelatedBlock"><blockId>checkout-review-submit</blockId></action>
+            <action method="addRelatedBlock"><blockId>checkout-review-table-wrapper</blockId></action>
+            <action method="setAuthenticationStartMode"><mode>instant</mode></action>
+        </block>
+        <block type="paypal/iframe" name="paypal.iframe" />
+        <block type="directpost/form" name="payment.form.directpost" template="firecheckout/authorizenet/directpost/form.phtml">
+            <action method="setMethodInfo"></action>
+        </block>
+    </firecheckout_index_saveorder>
+
+    <firecheckout_index_success translate="label">
+        <update handle="checkout_onepage_success"/>
+    </firecheckout_index_success>
+
+    <firecheckout_index_failure translate="label">
+        <update handle="checkout_onepage_failure"/>
+    </firecheckout_index_failure>
+
+    <firecheckout_replace_checkout_links>
+        <reference name="checkout.cart.top_methods">
+            <action method="unsetChild" ifconfig="firecheckout/general/enabled"><name>checkout.cart.methods.onepage</name></action>
+            <action method="unsetChild" ifconfig="firecheckout/general/enabled"><name>checkout.cart.methods.onepage.top</name></action>
+        </reference>
+        <reference name="checkout.cart.methods">
+            <action method="unsetChild" ifconfig="firecheckout/general/enabled"><name>checkout.cart.methods.onepage</name></action>
+            <action method="unsetChild" ifconfig="firecheckout/general/enabled"><name>checkout.cart.methods.onepage.bottom</name></action>
+        </reference>
+        <reference name="checkout.cart.top_methods">
+            <block type="firecheckout/checkout_link" name="checkout.cart.methods.fire" template="firecheckout/checkout/link.phtml"/>
+        </reference>
+        <reference name="checkout.cart.methods">
+            <block type="firecheckout/checkout_link" name="checkout.cart.methods.fire" template="firecheckout/checkout/link.phtml" before="checkout.cart.methods.multishipping"/>
+        </reference>
+    </firecheckout_replace_checkout_links>
+
+    <!-- TBT Rewards -->
+    <rewards_cart_redeem_changepointsspending>
+        <update handle="firecheckout_replace_checkout_links"/>
+    </rewards_cart_redeem_changepointsspending>
+    <!-- TBT Rewards -->
+
+    <!-- Magento 1.7.0.0 integration -->
+    <firecheckout_index_index>
+        <reference name="customer.login">
+            <block type="core/text_list" name="form.additional.info">
+                <block type="captcha/captcha" name="captcha.login.checkout">
+                    <reference name="head">
+                        <action method="addJs"><file>mage/captcha.js</file></action>
+                    </reference>
+                    <action method="setFormId"><formId>user_login</formId></action>
+                    <action method="setImgWidth"><width>230</width></action>
+                    <action method="setImgHeight"><width>50</width></action>
+                </block>
+            </block>
+        </reference>
+        <reference name="customer.forgot">
+            <block type="core/text_list" name="form.additional.info">
+                <block type="captcha/captcha" name="captcha.forgot.checkout">
+                    <reference name="head">
+                        <action method="addJs"><file>mage/captcha.js</file></action>
+                    </reference>
+                    <action method="setFormId"><formId>user_forgotpassword</formId></action>
+                    <action method="setImgWidth"><width>230</width></action>
+                    <action method="setImgHeight"><width>50</width></action>
+                </block>
+            </block>
+        </reference>
+        <reference name="checkout.onepage.billing">
+            <block type="core/text_list" name="form.additional.info">
+                <block type="captcha/captcha" name="captcha.guest.checkout">
+                    <reference name="head">
+                        <action method="addJs"><file>mage/captcha.js</file></action>
+                    </reference>
+                    <action method="setFormId"><formId>guest_checkout</formId></action>
+                    <action method="setImgWidth"><width>230</width></action>
+                    <action method="setImgHeight"><width>50</width></action>
+                </block>
+                <block type="captcha/captcha" name="captcha.register.during.checkout">
+                    <reference name="head">
+                        <action method="addJs"><file>mage/captcha.js</file></action>
+                    </reference>
+                    <action method="setFormId"><formId>register_during_checkout</formId></action>
+                    <action method="setImgWidth"><width>230</width></action>
+                    <action method="setImgHeight"><width>50</width></action>
+                </block>
+            </block>
+        </reference>
+    </firecheckout_index_index>
+    <!-- Magento 1.7.0.0 integration -->
+
+    <!-- Enterprise version integration -->
+    <!-- <firecheckout_index_index>
+        <update handle="customer_form_template_handle"/>
+        <reference name="checkout.onepage.billing">
+            <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
+                <action method="setFormCode"><code>checkout_register</code></action>
+            </block>
+            <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes">
+                <action method="setFormCode"><code>customer_register_address</code></action>
+            </block>
+        </reference>
+        <reference name="checkout.onepage.shipping">
+            <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">
+                <action method="setFormCode"><code>customer_register_address</code></action>
+            </block>
+        </reference>
+        <reference name="checkout.onepage.payment.methods.scripts">
+            <block type="enterprise_customerbalance/checkout_onepage_payment_additional" template="firecheckout/customerbalance/checkout/onepage/payment/scripts.phtml" name="customerbalance_scripts" />
+        </reference>
+        <reference name="checkout.onepage.payment.methods_additional" as="methods_additional">
+            <block type="enterprise_customerbalance/checkout_onepage_payment_additional" template="firecheckout/customerbalance/checkout/onepage/payment/additional.phtml" name="customerbalance" />
+            <block type="enterprise_reward/checkout_payment_additional" template="firecheckout/reward/checkout/onepage/payment/additional.phtml" name="reward.points" before="-"/>
+        </reference>
+        <reference name="content">
+            <block type="enterprise_giftwrapping/checkout_options" name="checkout.options" template="giftwrapping/checkout/options.phtml" />
+        </reference>
+        <reference name="firecheckout">
+            <block type="enterprise_giftcardaccount/checkout_cart_giftcardaccount" name="checkout.giftcard" as="giftcard">
+                <action method="setTemplate" ifconfig="firecheckout/general/giftcard"><template>firecheckout/giftcardaccount/cart/block.phtml</template></action>
+            </block>
+        </reference>
+        <reference name="info">
+            <action method="addItemRender">
+                <type>giftcard</type>
+                <block>enterprise_giftcard/checkout_cart_item_renderer</block>
+                <template>checkout/onepage/review/item.phtml</template>
+            </action>
+        </reference>
+    </firecheckout_index_index>
+    <firecheckout_index_updatecheckout>
+        <reference name="checkout.onepage.payment.methods.scripts">
+            <block type="enterprise_customerbalance/checkout_onepage_payment_additional" template="firecheckout/customerbalance/checkout/onepage/payment/scripts.phtml" name="customerbalance_scripts" />
+            <block type="enterprise_reward/checkout_payment_additional" template="firecheckout/reward/checkout/onepage/payment/scripts.phtml" name="reward.scripts" after="-" />
+        </reference>
+        <block type="enterprise_giftcardaccount/checkout_cart_giftcardaccount" name="checkout.giftcard" as="giftcard">
+            <action method="setTemplate" ifconfig="firecheckout/general/giftcard"><template>firecheckout/giftcardaccount/cart/block.phtml</template></action>
+        </block>
+        <reference name="checkout.review">
+            <action method="addItemRender">
+                <type>giftcard</type>
+                <block>enterprise_giftcard/checkout_cart_item_renderer</block>
+                <template>checkout/onepage/review/item.phtml</template>
+            </action>
+        </reference>
+    </firecheckout_index_updatecheckout> -->
+    <!-- Enterprise version integration -->
+
+    <!-- Billpay -->
+    <!-- <firecheckout_index_index>
+        <reference name="head">
+            <action method="addJs" ifconfig="payment/billpay_rec/active"><script>billpay/payment.js</script></action>
+            <action method="addJs" ifconfig="payment/billpay_elv/active"><script>billpay/payment.js</script></action>
+            <action method="addJs" ifconfig="payment/billpay_rat/active"><script>billpay/payment.js</script></action>
+        </reference>
+    </firecheckout_index_index> -->
+    <!-- Billpay -->
+
+    <!-- Klarna -->
+    <!-- <firecheckout_index_index>
+        <reference name="head">
+            <action method="addCss"><stylesheet>klarna/checkout/style.css</stylesheet></action>
+            <action method="addCss"><stylesheet>klarna/overrides.css</stylesheet></action>
+            <action method="addJs"><script>klarnavalidate.js</script></action>
+            <action method="addJs"><script>klarnaselection.js</script></action>
+            <action method="addJs"><script>klarna.min.js</script></action>
+            <action method="addJs"><script>klarna.lib.js</script></action>
+            <action method="addJs"><script>checkout/all.js</script></action>
+            <block type="page/html_head" name="klarna_head" as="klarna_head" template="klarna/checkout/scripts.phtml" />
+        </reference>
+    </firecheckout_index_index> -->
+    <!-- Klarna -->
+
+    <!-- buyerprotect -->
+    <!-- <firecheckout_index_index>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/buyerprotect.css</stylesheet></action>
+        </reference>
+        <reference name="checkout.payment.methods">
+            <block type="buyerprotect/checkout_form" name="buyerprotect.checkout.form" as="buyerprotect" template="buyerprotect/checkout/excellence.phtml"/>
+        </reference>
+    </firecheckout_index_index>
+    <firecheckout_index_updatecheckout>
+        <reference name="checkout.payment.method">
+            <block type="buyerprotect/checkout_form" name="buyerprotect.checkout.form" as="buyerprotect" template="buyerprotect/checkout/excellence.phtml"/>
+        </reference>
+    </firecheckout_index_updatecheckout> -->
+    <!-- buyerprotect -->
+
+    <!-- tig postcode -->
+    <!-- <firecheckout_index_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/tig/postcode/onepage.js</name></action>
+            <action method="addItem"><type>skin_css</type><name>css/tig/postcode/onepage.css</name></action>
+        </reference>
+        <reference name="checkout.onepage.billing">
+            <action method="setTemplate"><template>firecheckout/tig/billing.phtml</template></action>
+        </reference>
+        <reference name="checkout.onepage.shipping">
+            <action method="setTemplate"><template>firecheckout/tig/shipping.phtml</template></action>
+        </reference>
+    </firecheckout_index_index> -->
+    <!-- tig postcode -->
+
+    <!-- Payone integration -->
+    <!-- <firecheckout_index_index>
+        <reference name="head">
+            <action method="addJs"><script>payone/core/client_api.js</script></action>
+            <action method="addJs"><script>payone/core/creditcard.js</script></action>
+            <action method="addJs"><script>payone/core/onlinebanktransfer.js</script></action>
+            <action method="addJs"><script>payone/core/wallet.js</script></action>
+            <action method="addJs" ifconfig="payone_protect/general/enabled">
+                <script>payone/core/addresscheck.js</script>
+            </action>
+        </reference>
+        <reference name="head">
+            <block type="core/template" name="payone_core_clientapi" template="payone/core/client_api.phtml" />
+            <block type="core/template" name="payone_core_protect" template="payone/core/checkout/protect.phtml" />
+            <block type="core/template" name="payone_core_payment" template="payone/core/checkout/onepage/init.phtml" />
+        </reference>
+        <reference name="checkout.payment.methods">
+            <block type="core/template" name="additional" as="additional">
+                <block type="payone_core/checkout_onepage_payment_additional"
+                       name="payone_core_payment_additional"
+                       template="payone/core/checkout/onepage/payment/additional.phtml" />
+            </block>
+        </reference>
+    </firecheckout_index_index>
+    <firecheckout_index_updatecheckout>
+        <reference name="checkout.payment.method">
+            <block type="core/template" name="additional" as="additional">
+                <block type="payone_core/checkout_onepage_payment_additional"
+                       name="payone_core_payment_additional"
+                       template="payone/core/checkout/onepage/payment/additional.phtml" />
+            </block>
+        </reference>
+    </firecheckout_index_updatecheckout> -->
+    <!-- Payone integration -->
+
+    <!-- Orgone -->
+    <!-- <firecheckout_index_index>
+        <reference name="head">
+            <action method="addJs"><script>netresearch/ops/payment.js</script></action>
+        </reference>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/ops.css</stylesheet></action>
+        </reference>
+        <reference name="payment.method">
+            <block type="core/template" name="ops_iframe" as="ops_iframe" template="ops/iframe.phtml" />
+        </reference>
+    </firecheckout_index_index> -->
+    <!-- Orgone -->
+
+    <!-- phoenix/ipayment -->
+    <!-- <firecheckout_index_index>
+        <reference name="head">
+            <action method="addJs"><script>phoenix/ipayment/processing.js</script></action>
+        </reference>
+        <reference name="content">
+            <block type="ipayment/jsinclude" name="ipayment_jsinclude" template="ipayment/jsinclude.phtml"/>
+        </reference>
+    </firecheckout_index_index> -->
+    <!-- phoenix/ipayment -->
+
+    <!-- craftyclicks postcode lookup integration -->
+    <!-- <firecheckout_index_index>
+        <reference name="head">
+            <action method="addJs"><script>craftyclicks/crafty_postcode.class.js</script></action>
+            <action method="addJs"><script>craftyclicks/craftyclicks_onepagecheckout.js</script></action>
+            <block type="page/html" name="craftyclicks_config" template="craftyclicks/common_config.phtml"/>
+        </reference>
+    </firecheckout_index_index> -->
+    <!-- craftyclicks postcode lookup integration -->
+
+    <!-- Storepickup integration -->
+    <!-- <firecheckout_index_index>
+        <reference name="head">
+            <action method="addJs"><script>calendar/calendar.js</script></action>
+            <action method="addJs"><script>calendar/calendar-setup.js</script></action>
+        </reference>
+        <reference name="checkout.onepage.shipping_method.available">
+            <block type="storepickup/checkout_store" name="storepickup" as="storepickup" >
+                <block type="storepickup/location" name="store_location" as="store_location" template="storepickup/store_location.phtml" />
+                <block type="storepickup/checkout_store" name="list_store" as="list_store" template="storepickup/store.phtml" />
+            </block>
+        </reference>
+    </firecheckout_index_index>
+    <firecheckout_index_updatecheckout>
+        <reference name="checkout.shipping.method">
+            <block type="storepickup/checkout_store" name="storepickup" as="storepickup" >
+                <block type="storepickup/location" name="store_location" as="store_location" template="storepickup/store_location.phtml" />
+                <block type="storepickup/checkout_store" name="list_store" as="list_store" template="storepickup/store.phtml" />
+            </block>
+        </reference>
+    </firecheckout_index_updatecheckout> -->
+    <!-- End of Storepickup integration -->
+
+    <!-- Kiala locateAndSelect -->
+    <!-- <firecheckout_index_index>
+        <update handle="kiala_checkout"/>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/kiala/locateandselect/kiala_osc.css</stylesheet></action>
+            <block type="locateandselect/onestepcheckout_header" name="kiala.locateandselect.onestepcheckout.header" template="kiala/locateandselect/onestepcheckout/header.phtml"/>
+        </reference>
+        <reference name="checkout.onepage.shipping_method.available">
+            <block type="page/html" name="kiala.locateandselect.kialapoint.wrapper" template="kiala/locateandselect/onestepcheckout/kialapoint/wrapper.phtml">
+                <block type="locateandselect/kialapoint_show" name="kiala.locateandselect.kialapoint.show" template="kiala/locateandselect/onestepcheckout/kialapoint/show.phtml"/>
+            </block>
+        </reference>
+    </firecheckout_index_index>
+    <firecheckout_index_updatecheckout>
+        <reference name="checkout.shipping.method">
+            <block type="page/html" name="kiala.locateandselect.kialapoint.wrapper" template="kiala/locateandselect/onestepcheckout/kialapoint/wrapper.phtml">
+                <block type="locateandselect/kialapoint_show" name="kiala.locateandselect.kialapoint.show" template="kiala/locateandselect/onestepcheckout/kialapoint/show.phtml"/>
+            </block>
+        </reference>
+    </firecheckout_index_updatecheckout> -->
+    <!-- Kiala locateAndSelect -->
+
+    <!-- J2t Rewardpoints Integration -->
+    <!-- <firecheckout_index_index>
+        <remove name="checkout.coupon"/>
+        <reference name="content">
+            <block type="rewardpoints/coupon" name="checkout_cart_coupon_normal" as="coupon_points" template="firecheckout/rewardpoints/reward_coupon.phtml">
+                <block type="checkout/cart_coupon" name="checkout_cart_coupon_reward" as="coupon_original">
+                    <action method="setTemplate" ifconfig="firecheckout/general/discount"><template>firecheckout/checkout/coupon.phtml</template></action>
+                </block>
+            </block>
+        </reference>
+    </firecheckout_index_index>
+    <firecheckout_index_updatecheckout>
+        <remove name="checkout.coupon"/>
+        <block type="rewardpoints/coupon" name="checkout_cart_coupon_normal" as="coupon_points" template="firecheckout/rewardpoints/reward_coupon.phtml">
+            <block type="checkout/cart_coupon" name="checkout_cart_coupon_reward" as="coupon_original">
+                <action method="setTemplate" ifconfig="firecheckout/general/discount"><template>firecheckout/checkout/coupon.phtml</template></action>
+            </block>
+        </block>
+    </firecheckout_index_updatecheckout> -->
+    <!-- End of J2t Rewardpoints Integration -->
+
+    <!-- Sage Pay Suite Integration -->
+    <!-- <firecheckout_index_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>sagepaysuite/css/growler/growler.css</name></action>
+            <action method="addItem"><type>skin_css</type><name>sagepaysuite/css/sagePaySuite_Checkout.css</name></action>
+            <action method="addItem"><type>skin_js</type><name>sagepaysuite/js/growler/growler.js</name></action>
+            <action method="addItem"><type>js</type><name>sagepaysuite/direct.js</name></action>
+            <action method="addItem"><type>js</type><name>sagepaysuite/common.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>sagepaysuite/sagePaySuite.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>sagepaysuite/js/sagePaySuite_Checkout.js</name></action>
+            <action method="addItem"><type>js</type><name>sagepaysuite/livepipe/livepipe.js</name></action>
+            <action method="addItem"><type>js</type><name>sagepaysuite/livepipe/window.js</name></action>
+        </reference>
+        <reference name="content">
+            <block type="sagepaysuite/javascriptVars" name="sagepaysuite.js.vars" template="sagepaysuite/payment/SagePaySuiteVars.phtml"/>
+        </reference>
+    </firecheckout_index_index> -->
+    <!-- End of Sage Pay Suite Integration -->
+
+    <!-- Sage Pay Server Integration -->
+    <!-- <firecheckout_index_index>
+        <reference name="content">
+            <block type="sagepayserver/vars" name="sagepay_vars" before="-"/>
+        </reference>
+    </firecheckout_index_index> -->
+    <!-- End of Sage Pay Server Integration -->
+
+    <!-- Relaypoint shipping method fix -->
+    <!-- <firecheckout_index_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><script>js/icirelais.js</script></action>
+            <action method="addJs"><script>prototype/window.js</script></action>
+            <action method="addItem"><type>js</type><name>prototype/window_effects.js</name><params/><if>lt IE 7</if></action>
+            <action method="addJs"><script>prototype/debug.js</script></action>
+            <action method="addItem"><type>skin_css</type><name>css/alphacube.css</name><params/></action>
+            <action method="addItem"><type>skin_css</type><name>css/icirelais.css</name><params/></action>
+            <action method="addItem"><type>skin_css</type><name>css/default.css</name><params/></action>
+            <action method="addItem"><type>skin_css</type><name>css/mac_os_x_dialog.css</name><params/></action>
+            <block type="core/text" name="map.js">
+                <action method="setText"><text><![CDATA[<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&region=FR"></script>]]></text></action>
+            </block>
+        </reference>
+    </firecheckout_index_index> -->
+    <!-- Relaypoint shipping method fix -->
+
+    <!-- euvatgrouper -->
+    <!-- <firecheckout_index_index>
+        <reference name="head">
+            <action method="addJs"><script>geissweb/vatvalidation.js</script></action>
+        </reference>
+    </firecheckout_index_index> -->
+    <!-- euvatgrouper -->
+</layout>

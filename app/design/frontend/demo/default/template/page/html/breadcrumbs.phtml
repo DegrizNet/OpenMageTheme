@@ -1,0 +1,25 @@
+<?php if($crumbs && is_array($crumbs)): ?>
+<div class="breadcrumbs">
+	<div class="container">
+		<ul itemscope itemtype="http://schema.org/BreadcrumbList">
+			<?php $i = 1; foreach($crumbs as $_crumbName=>$_crumbInfo): ?>
+				<li class="<?php echo $_crumbName ?>" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+				<?php if($_crumbInfo['link']): ?>
+					<a href="<?php echo $_crumbInfo['link'] ?>" title="<?php echo $this->escapeHtml($_crumbInfo['title']) ?>" itemprop="item"><span itemprop="name"><?php echo $this->escapeHtml($_crumbInfo['label']) ?></span></a>
+				<?php elseif($_crumbInfo['last']): ?>
+					<a href="<?php echo Mage::helper('core/url')->getCurrentUrl(); ?>" title="<?php echo $this->escapeHtml($_crumbInfo['title']) ?>" itemprop="item">
+						<strong itemprop="name"><?php echo $this->escapeHtml($_crumbInfo['label']) ?></strong>
+					</a>
+				<?php else: ?>
+					<?php echo $this->escapeHtml($_crumbInfo['label']) ?>
+				<?php endif; ?>
+				<?php if(!$_crumbInfo['last']): ?>
+					<span>/ </span>
+				<?php endif; ?>
+					<meta itemprop="position" content="<?php echo $i; $i++; ?>" />
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+</div>
+<?php endif; ?>

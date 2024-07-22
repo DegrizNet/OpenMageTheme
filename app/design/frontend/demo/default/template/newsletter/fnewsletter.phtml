@@ -1,0 +1,25 @@
+<?php
+	$newsletter = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'wysiwyg/newsletter.jpeg';  
+	list($width, $height) = getimagesize($newsletter);
+?>
+<div class="fnewsletter container">
+	<img class="background lazy" data-src="<?php echo $newsletter; ?>" width="<?php echo $width ?>" height="<?php echo $height ?>" alt="<?php echo $this->__('Newsletter') ?>" />
+	<div class="wrap">
+		<div class="content">
+			<div class="title"><?php echo $this->__("Join our <strong>community</strong>") ?></div>
+			<p><?php echo $this->__("Sign up for the e-news and stay up to date with all the news and benefits.") ?></p>
+		</div>
+		<form action="<?php echo $this->getFormActionUrl() ?>" method="post" id="fnewsletter-validate-detail">
+			<div class="input">
+				<input type="text" name="email" id="newsletter" title="<?php echo $this->__('Newsletter') ?>" class="required-entry validate-email" value="<?php echo $this->__('Enter your email address') ?>" onblur="if(this.value == '') { this.value='<?php echo $this->__('Enter your email address') ?>'}" onfocus="if (this.value == '<?php echo $this->__('Enter your email address') ?>') {this.value=''}" />
+				<?php echo $this->getLayout()->createBlock('degriz_gdprnewsletter/newsletter')->setTemplate('degriz/gdprnewsletter/newsletter.phtml')->toHtml(); ?>
+			</div>
+			<button type="submit" title="<?php echo $this->__('Subscribe') ?>" class="button btn-cart"><span><span><?php echo $this->__('Subscribe') ?></span></span></button>
+		</form>
+	</div>
+	<script type="text/javascript">
+	//<![CDATA[
+		var newsletterSubscriberFormDetail = new VarienForm('fnewsletter-validate-detail');
+	//]]>
+	</script>
+</div>

@@ -1,0 +1,16 @@
+div.j2t-box-tl {background:url(../../images/j2t/box-template-rounded.png) no-repeat top left;}
+div.j2t-box-tm {background:url(../../images/j2t/box-template-rounded.png) no-repeat top center;}
+div.j2t-box-tr {background:url(../../images/j2t/box-template-rounded.png) no-repeat top right;}
+
+div.j2t-box-cl {background:url(../../images/j2t/box-template-rounded.png) no-repeat center left;}
+div.j2t-box-cm {background:url(../../images/j2t/box-template-rounded.png) no-repeat center center;}
+div.j2t-box-cr {background:url(../../images/j2t/box-template-rounded.png) no-repeat center right;}
+
+div.j2t-box-bl {background:url(../../images/j2t/box-template-rounded.png) no-repeat bottom left;}
+div.j2t-box-bm {background:url(../../images/j2t/box-template-rounded.png) no-repeat bottom center;}
+div.j2t-box-br {background:url(../../images/j2t/box-template-rounded.png) no-repeat bottom right;}
+
+/*div.j2t-box-bottom {clear:both;}*/
+
+div.j2tajax-progress, div.j2tajax-confirm {background:none;}
+div.j2tajax-confirm, div.j2tajax-progress{border:none;}

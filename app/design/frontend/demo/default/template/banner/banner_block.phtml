@@ -1,0 +1,35 @@
+<?php $bannerCollection = $this->_getCollection(); ?>
+<?php if(($bannerCollection->count())>0) : ?>
+<?php $imageCollection = $this->_getBannerImageCollection($bannerCollection); ?>
+<?php foreach ($imageCollection as $item) : ?>
+	<?php 
+		$height = $item['height']; 
+		$width = $item['width']; 
+		$content = $item['content']; 
+		$advanced_settings = trim($item['advanced_settings']);		
+		$images = $this->getSortedImages($content);
+	?>
+	<?php if(isset($images) && !empty($images) && count($images)>0) : ?>
+<div class="banner_block">
+	<ul>
+	<?php $i =1; foreach($images as $image): $i++; 
+	$content = $image['html'];
+	$label = $image['label']; ?>
+		<li>
+			<a <?php if(!empty($image['link'])): ?> href="<?php echo $image['link'];?>"<?php else:?> href="#" <?php endif;?> title="<?php echo $label; ?>">
+				<img class="lazy" height="<?php echo $height ?>px" width="<?php echo $width ?>px" data-src="<?php echo $this->helper('banner')->resizeImg($image['file'],$width,$height);?>"  alt="<?php if($label) { echo $label; } else { echo strip_tags($content); } ?>" />
+				<?php if($content): ?>
+				<div class="content">
+					<?php if($label): ?><h4><?php echo $label; ?></h4><?php endif?>
+					<p><?php echo strip_tags($content,'<strong>,<b>,<a>,<u>'); ?></p>
+				</div>
+				<?php endif; ?>
+			</a>
+		</li>
+	<?php endforeach;?>
+	</ul>
+	<div class="clear"></div>
+</div>
+	<?php endif;?>
+<?php endforeach;?>
+<?php endif; ?>

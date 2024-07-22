@@ -1,0 +1,75 @@
+<div class="kategor block">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Kategorije izdelkov') ?></span></strong>
+    </div>
+<?php $cats = Mage::getModel('catalog/category')->load(81)->getChildren();
+$catIds = explode(',',$cats);
+$categories = array();
+	foreach($catIds as $catId) {
+	    $category = Mage::getModel('catalog/category')->load($catId); 
+		if ($category->getIncludeInMenu()) {
+			$categories[$category->getName()] = array(
+				'url' => $category->getUrl(),
+				'img' => $category->getImageUrl(),
+				'child' => $category->getChildren()
+			);
+		}
+	}
+?>
+<div class="block-content">
+    <ul id="leftnav-tree" class="level0">
+    <?php if($category->getIsActive()): ?>
+    <?php $i= 0; foreach($categories as $name => $data): ?>
+        <li <?php if($i%2 == 0): ?>class="odd"<?php endif; ?>>
+            <a href="<?php echo $data['url']; ?>" title="<?php echo $name; ?>" alt="<?php echo $name; ?>" class="naslov"><?php echo $name; ?></a>
+			<?php $subcats = $data['child']; if(isset($subcats)): ?>
+				<ul>
+			    <?php foreach(explode(',',$subcats) as $subCatid)
+				{
+				  $_category = Mage::getModel('catalog/category')->load($subCatid);
+				  if($_category->getIsActive())
+				  {
+				    $caturl     = $_category->getURL();
+				    $catname     = $_category->getName();
+				    if($_category->getImageUrl())
+				    {
+				      $catimg     = $_category->getImageUrl();
+				    }
+				    echo '<li>- <a href="'.$caturl.'" title="'.$catname.'">'.$catname.'</a></li>';
+				  }
+				} ?>
+				</ul>
+			<?php endif; ?>
+        </li>   
+    <?php $i++; endforeach; ?>
+    <?php endif; ?>
+	</ul>
+</div>
+</div>
+
+<a href="<?php echo Mage::getBaseUrl(); ?>blagovne-znamke.html" class="blagovne-znamke"><?php echo $this->__('Blagovne znamke') ?></a>
+
+<div class="filtri block">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Filtri') ?></span></strong>
+    </div>
+    <div class="block-content">
+    <?php $splashGroupId = 2; $splashGroup = Mage::getModel('attributeSplash/group')->load($splashGroupId) ?>
+    <?php if ($splashGroup->getId()): ?>
+        <?php $splashHelper = Mage::helper('attributeSplash/image') ?>
+        <?php $splashPages = $splashGroup->getSplashPages()->addOrderByName()->load() ?>
+        <?php if (count($splashPages) > 0): ?>
+            <ul>
+                <?php $i= 0; foreach($splashPages as $splashPage): ?>
+                    <?php $splashHelper->init($splashPage, 'thumbnail') ?>
+                    <li <?php if($i%2 == 0): ?>class="odd"<?php endif; ?>>
+                        <a href="<?php echo $splashPage->getUrl() ?>" title="<?php echo $this->escapeHtml($splashPage->getName()) ?>">
+                            <img src="<?php echo $splashHelper->resize(100, 100) ?>" alt="<?php echo $this->escapeHtml($splashPage->getName()) ?>" />
+                        </a>
+                    </li>
+                <?php $i++; endforeach; ?>
+            </ul>
+        <?php endif; ?>
+    <?php endif; ?>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="faceboo">
+		<?php		
+		//BE SURE to enter your facebook id here
+		$fbid="315045128585718";
+		
+		//how may posts to show
+		$fbLimit=1;
+		//variable used to count how many weO~ve loaded
+		$fbCount=0;
+		
+		//call the function and get the posts from facebook
+		$myPosts=loadFB($fbid);
+		
+		//set timezone (change this to your timezone)
+		date_default_timezone_set("Europe/Ljubljana");
+		
+		//loop through all the posts we got from facebook
+		foreach($myPosts as $dPost){
+		      //get the post date / time and convert to unix time
+		      $dTime = strtotime($dPost->published);
+		      //format the date / time into something human readable
+		      //if you want it formatted differently look up the php date function
+		      $myTime=date("h:i, d. m. Y",$dTime);
+
+		      //output the date / time
+		      echo("<strong>".$myTime."</strong><br />");
+		      //output the message body
+		      echo($dPost->content);
+		      //add a line break to separate comments  
+		      //increment counter
+		      $fbCount++;
+		      //if we've outputted the number set above in fblimit we're done
+		      if($fbCount >= $fbLimit) break;    
+		}
+		?>
+</div>

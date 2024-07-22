@@ -1,0 +1,49 @@
+<?php 	
+$attribute = Mage::getModel('eav/config')->getAttribute('catalog_product', 'manufacturer');
+$brands = $attribute->getSource()->getAllOptions(true, true); 
+$lazy = Mage::getDesign()->getSkinUrl('images/blank.gif');  ?>
+
+<div class="brands">
+
+		<div id="itemslider-brands" class="itemslider itemslider-responsive brand-slider owl-carousel owl-theme">			
+				<?php foreach ($brands as $brand):	
+					$brand_id = $brand['value']; 
+					$splashPage = Mage::getModel('attributeSplash/page')->load($brand_id, 'option_id');
+					$image = $this->helper('attributeSplash/image')->init($splashPage, 'thumbnail')->resize(160,90);
+					if(!$image) { continue; }
+					$name = $splashPage->getName(); ?>
+
+					<div class="item">
+						<a class="fade-on-hover" href="<?php echo $splashPage->getUrl() ?>" title="<?php echo $this->__('Click to see more products from %s', $name); ?>">
+							<img class="owl-lazy" src="<?php echo $lazy; ?>" width="160px" height="90px" data-src="<?php echo $image; ?>" title="<?php echo $name; ?>" />
+						</a>
+					</div>	
+				<?php endforeach; ?>
+		</div>
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			var owl = jQuery('#itemslider-brands');
+			owl.owlCarousel({
+				autoplay:true,
+				autoplayTimeout:2000,
+				loop: true,
+				dots: false,
+				lazyLoad: true,
+				responsive:{
+					0:{
+						items:2,
+					},
+					600:{
+						items:4,
+					},
+					800:{
+						items:6,
+					},
+					1000:{
+						items:8,
+					}
+				},
+			});
+		});
+	</script>
+</div>

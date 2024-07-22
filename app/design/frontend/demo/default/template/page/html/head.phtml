@@ -1,0 +1,64 @@
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title><?php echo $this->getTitle() ?></title>
+<?php if (Mage::registry('current_product')) : ?>
+<?php  $artikel = Mage::registry('current_product')->getName(); $opis = Mage::registry('current_product')->getShortDescription(); $opis = strip_tags($opis); if(strlen($opis) > 155) { $opis = substr(strip_tags($opis), 0, 152). ".."; } ?>
+	<meta name="description" content = "<?php echo htmlspecialchars($opis) ?>" />
+<?php else : ?>
+	<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
+<?php endif; ?>
+<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+
+<?php if(Mage::registry('current_product')): ?>
+<?php $product = Mage::registry('current_product'); ?>
+<meta property="og:title" content="<?php $ime = $product->getName(); echo $ime; ?>" />
+<meta property="og:type" content="product" />
+<meta property="og:image" content="<?php $slika = $this->helper('catalog/image')->init($product, 'small_image')->resize(1200,630); echo $slika; ?>" />
+<meta property="og:url" content="<?php echo Mage::registry('product')->getProductUrl(); ?>" />
+<meta property="og:description" content="<?php $opis = strip_tags(($product->getShortDescription())); echo  $opis; ?>" />
+<meta property="og:site_name" content="<?php echo Mage::app()->getWebsite()->getName(); ?>" />
+<meta property="og:price:amount" content="<?php $cena = Mage::registry('product')->getFinalPrice(); echo $cena; ?>" />
+<meta property="og:price:currency" content="<?php $currency = Mage::app()->getStore()->getCurrentCurrencyCode(); echo $currency; ?>" />
+<?php elseif(Mage::registry('current_category')): ?>
+<meta property="og:title" content="<?php echo $this->getTitle() ?>" />
+<meta property="og:type" content="product.group" />
+<meta property="og:url" content="<?php echo $this->helper('core/url')->getCurrentUrl();?>" />
+<meta property="og:description" content="<?php echo strip_tags($this->getDescription()) ?>" />
+<meta property="og:site_name" content="<?php echo Mage::app()->getWebsite()->getName(); ?>" />
+<?php elseif ($post = Mage::registry('wordpress_post')): ?>
+<meta property="og:title" content="<?php echo $post->getData('post_title'); ?>" />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="<?php if ($featuredImage = $post->getFeaturedImage()) { echo $featuredImage->getAvailableImage(); } ?>" />
+<meta property="og:url" content="<?php echo $this->helper('core/url')->getCurrentUrl();?>" />
+<meta property="og:description" content="<?php echo substr(strip_tags($post->getData('post_content')), 0, 140).'..';   ?>" />
+<meta property="og:site_name" content="<?php echo Mage::app()->getWebsite()->getName(); ?>" />
+<?php elseif((Mage::getSingleton('cms/page')->getIdentifier() == 'home' && Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms')) : ?>
+<meta property="og:title" content="<?php echo $this->getTitle() ?>" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="<?php echo $this->helper('core/url')->getCurrentUrl();?>" />
+<meta property="og:description" content="<?php echo strip_tags($this->getDescription()) ?>" />
+<meta property="og:site_name" content="<?php echo Mage::app()->getWebsite()->getName(); ?>" />
+<?php else: ?>
+<meta property="og:title" content="<?php echo $this->getTitle() ?>" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="<?php echo $this->helper('core/url')->getCurrentUrl();?>" />
+<meta property="og:description" content="<?php echo strip_tags($this->getDescription()) ?>" />
+<meta property="og:site_name" content="<?php echo Mage::app()->getWebsite()->getName(); ?>" />
+<?php endif; ?>
+
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<!--[if lt IE 7]>
+<script type="text/javascript">
+//<![CDATA[
+    var BLANK_URL = '<?php echo $this->helper('core/js')->getJsUrl('blank.html') ?>';
+    var BLANK_IMG = '<?php echo $this->helper('core/js')->getJsUrl('spacer.gif') ?>';
+//]]>
+</script>
+<![endif]-->
+
+<?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php echo $this->getIncludes() ?>

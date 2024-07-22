@@ -1,0 +1,59 @@
+﻿<?xml version="1.0"?>
+<layout version="0.1.0">
+	<default>
+		<block type="banner/banner" name="banner_content_top" template="banner/banner.phtml">
+		  <action method="setPosition"><name>CONTENT_TOP</name></action>
+		</block>
+		<block type="banner/banner" name="banner_content_bottom" template="banner/banner_bottom.phtml">
+			<action method="setPosition"><name>CONTENT_BOTTOM</name></action>
+		</block>
+		<block type="banner/banner" name="banner_categories" template="banner/banner_categories.phtml">
+		  <action method="setPosition"><name>CATEGORIES</name></action>
+		</block>
+		<block type="banner/banner" name="reference2" template="banner/banner_block.phtml">
+		  <action method="setPosition"><name>REFERENCE2</name></action>
+		</block>
+		<reference name="footer">
+			<block type="banner/banner" name="instagram" template="banner/banner_instagram.phtml">
+				<action method="setPosition"><name>INSTAGRAM</name></action>
+			</block>
+		</reference>
+	</default>
+	<cms_page>		
+		<reference name="content">
+			<action method="append" ifconfig="banner/general/active"><block>banner_categories</block></action>
+			<action method="append" ifconfig="banner/general/active"><block>reference2</block></action>
+	        <action method="insert" ifconfig="banner/general/active"><block>banner_content_bottom</block></action>
+	        <action method="insert" ifconfig="banner/general/active"><block>banner_content_top</block></action>
+        </reference>
+    </cms_page>
+	<catalog_category_default>
+		<reference name="content">
+			<action method="insert" ifconfig="banner/general/active"><block>banner_categories</block></action>
+			<action method="insert" ifconfig="banner/general/active"><block>reference2</block></action>
+	        <action method="insert" ifconfig="banner/general/active"><block>banner_content_bottom</block></action>
+	        <action method="insert" ifconfig="banner/general/active"><block>banner_content_top</block></action>
+        </reference>
+	</catalog_category_default>
+	<catalog_category_layered>
+		<reference name="content">
+			<action method="insert" ifconfig="banner/general/active"><block>banner_categories</block></action>
+			<action method="insert" ifconfig="banner/general/active"><block>reference2</block></action>
+	        <action method="insert" ifconfig="banner/general/active"><block>banner_content_bottom</block></action>
+	        <action method="insert" ifconfig="banner/general/active"><block>banner_content_top</block></action>
+        </reference>
+	</catalog_category_layered>
+	
+
+	<cms_index_index>
+		<reference name="root">
+			<block type="banner/banner" name="banner_content_tops" template="banner/banner.phtml">
+			<action method="setPosition"><name>CONTENT_TOP</name></action>
+			</block>
+        </reference>
+		<reference name="content">
+		    <remove name="banner_content_top" />
+		</reference>
+	</cms_index_index>
+
+</layout> 

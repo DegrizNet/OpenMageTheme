@@ -1,0 +1,16 @@
+<?php
+$catalogSearchHelper =  $this->helper('catalogsearch');
+?>
+<form id="search_mini_form" action="<?php echo $catalogSearchHelper->getResultUrl() ?>" method="get">
+	<div class="icon"></div>
+    <div class="form-search">
+        <input id="search" type="text" name="<?php echo $catalogSearchHelper->getQueryParamName() ?>" aria-label="<?php echo $this->__('Search entire store here...') ?>" value="<?php if($querytext = $catalogSearchHelper->getEscapedQueryText()) { echo $querytext; } else { $this->__('Search entire store here...'); }  ?>" class="input-text" maxlength="<?php echo $catalogSearchHelper->getMaxQueryLength();?>" />
+        <button type="submit" title="<?php echo $this->__('Search') ?>" class="buttons"><span><?php echo $this->__('Search') ?></span></button>
+        <div id="search_autocomplete" class="search-autocomplete"></div>
+        <script type="text/javascript">
+        //<![CDATA[
+            var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo $this->__('Search entire store here...') ?>');
+        //]]>
+        </script>
+    </div>
+</form>

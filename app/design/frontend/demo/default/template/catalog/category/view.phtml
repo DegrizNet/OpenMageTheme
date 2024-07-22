@@ -1,0 +1,8 @@
+<?php if($this->isContentMode()): ?>
+    <?php echo $this->getCmsBlockHtml() ?>
+<?php elseif($this->isMixedMode()): ?>
+    <?php echo $this->getCmsBlockHtml() ?>
+    <?php echo $this->getProductListHtml() ?>
+<?php else: ?>
+    <?php echo $this->getProductListHtml() ?>
+<?php endif; ?>

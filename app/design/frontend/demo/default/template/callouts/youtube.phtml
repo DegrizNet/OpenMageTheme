@@ -1,0 +1,13 @@
+<?php if(Mage::getModel('cms/block')->load('youtube')->getIsActive() == 1): ?>
+<div class="block block-facebook">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Zadnje iz Youtuba') ?></span></strong>
+    </div>
+	<div class="title-divider">
+		<span>&nbsp;</span>
+	</div>
+    <div class="block-content">
+ 		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('youtube')->toHtml() ?> 
+    </div>
+</div>
+<?php endif; ?>

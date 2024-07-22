@@ -1,0 +1,26 @@
+<script type="text/javascript">
+    var ajax_cart_show_popup = <?php echo (int)Mage::getStoreConfig('j2tajaxcheckout/default/j2t_ajax_cart_show_popup', Mage::app()->getStore()->getId());?>;
+    <?php $loading_arr = explode("x",Mage::getStoreConfig('j2tajaxcheckout/default/j2t_ajax_cart_loading_size', Mage::app()->getStore()->getId()));?>
+    <?php $confirm_arr = explode("x",Mage::getStoreConfig('j2tajaxcheckout/default/j2t_ajax_cart_confirm_size', Mage::app()->getStore()->getId()));?>
+    
+    var loadingW = <?php echo $loading_arr[0];?>;
+    var loadingH = <?php echo $loading_arr[1];?>;
+    var confirmW = <?php echo $confirm_arr[0];?>;
+    var confirmH = <?php echo $confirm_arr[1];?>;
+
+</script>
+
+<div class="j2t-overlay" id="j2t-overlay" style="display: none;">&nbsp;</div>
+
+<div style="display: none;" class="j2tajax-progress" id="j2t_ajax_progress">
+        &nbsp;
+</div>
+<div class="j2t-loading-data" id="j2t-loading-data" style="display: none;">
+    <img alt="<?php echo $this->__('procesiranje...');?>" src="<?php echo $this->getSkinUrl();?>images/j2t/ajax-loader.gif"/>
+    <p><?php echo $this->__('procesiranje...');?></p>
+</div>
+
+<div style="display: none;" class="j2tajax-confirm" id="j2t_ajax_confirm">
+        &nbsp;
+</div>
+<div id="j2t-temp-div" style="display:none;"></div>

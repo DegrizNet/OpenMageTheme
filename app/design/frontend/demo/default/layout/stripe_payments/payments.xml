@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="customer">
+                <name>saved_cards</name>
+                <path>customer/savedcards</path>
+                <label>Saved Cards</label>
+            </action>
+        </reference>
+    </customer_account>
+
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>stripe_payments/js/stripe_payments.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>stripe_payments/js/cctype.js</name></action>
+            <action method="addCss"><stylesheet>stripe_payments/css/styles.css</stylesheet></action>
+            <action method="addCss"><stylesheet>stripe_payments/css/paymentfont.min.css</stylesheet></action>
+        </reference>
+        <reference name="checkout.payment.methods">
+            <action method="setTemplate"><template>stripe/payments/onepage/payment/methods.phtml</template></action>
+        </reference>
+    </checkout_onepage_index>
+
+    <stripe_payments_authorization_multishipping_index translate="label">
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>stripe_payments/js/stripe_payments.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>stripe_payments/js/cctype.js</name></action>
+            <action method="addCss"><stylesheet>stripe_payments/css/styles.css</stylesheet></action>
+            <action method="addCss"><stylesheet>stripe_payments/css/paymentfont.min.css</stylesheet></action>
+            <action method="addCss"><stylesheet>stripe_payments/css/styles.css</stylesheet></action>
+        </reference>
+        <label>Saved Cards</label>
+        <reference name="head">
+            <action method="setTitle"><title>Payment Authorization</title></action> <!--Page Title-->
+        </reference>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="stripe_payments/authorization_multishipping" name="authorization_multishipping" before="-" template="stripe/payments/authorization/multishipping.phtml"/>
+        </reference>
+    </stripe_payments_authorization_multishipping_index>
+
+    <checkout_onepage_success translate="label">
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>stripe_payments/js/stripe_payments.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>stripe_payments/js/cctype.js</name></action>
+            <action method="addCss"><stylesheet>stripe_payments/css/styles.css</stylesheet></action>
+            <action method="addCss"><stylesheet>stripe_payments/css/paymentfont.min.css</stylesheet></action>
+            <action method="addCss"><stylesheet>stripe_payments/css/wechat.css</stylesheet></action>
+        </reference>
+        <reference name="checkout.success">
+            <action method="setTemplate"><template>stripe/payments/checkout/success.phtml</template></action>
+            <block type="stripe_payments/onepage_info" name="stripe_payments.onepage.info" template="stripe/payments/onepage/info.phtml"/>
+        </reference>
+    </checkout_onepage_success>
+
+    <stripe_payments_verification_index translate="label">
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>stripe_payments/js/stripe_payments.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>stripe_payments/js/cctype.js</name></action>
+            <action method="addCss"><stylesheet>stripe_payments/css/styles.css</stylesheet></action>
+            <action method="addCss"><stylesheet>stripe_payments/css/paymentfont.min.css</stylesheet></action>
+            <action method="setTitle" translate="title" module="catalog">
+                <title>Bank Account Verification</title>
+            </action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="stripe_payments/verification" name="page_content_heading" template="stripe/payments/verification/content.phtml"/>
+        </reference>
+    </stripe_payments_verification_index>
+
+    
+    <firecheckout_index_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>stripe_payments/js/stripe_payments.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>stripe_payments/js/cctype.js</name></action>
+            <action method="addCss"><stylesheet>stripe_payments/css/styles.css</stylesheet></action>
+            <action method="addCss"><stylesheet>stripe_payments/css/paymentfont.min.css</stylesheet></action>
+        </reference>
+    </firecheckout_index_index>
+    
+</layout>

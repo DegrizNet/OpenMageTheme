@@ -1,0 +1,15 @@
+<?php if ($this->getReviewsCount()): ?>
+    <div class="ratings">
+        <?php if ($this->getRatingSummary()):?>
+            <div class="rating-box">
+                <div class="rating" style="width:<?php echo $this->getRatingSummary() ?>%"></div>
+            </div>
+        <?php endif;?>
+     </div>
+<?php elseif ($this->getDisplayIfEmpty()): ?>
+    <div class="ratings">
+            <div class="rating-box">
+                <div class="rating" style="width:0%"></div>
+            </div>
+     </div>
+<?php endif; ?>

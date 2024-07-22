@@ -1,0 +1,30 @@
+<?php $_helper    = $this->helper('catalog/output');
+$_category  = $this->getCurrentCategory(); 
+$name = $_helper->categoryAttribute($_category, $_category->getName(), 'name');
+$second_description=$this->getCurrentCategory()->getData('second_description'); ?>
+<div class="categorytop">
+	<div class="container">
+		<?php echo $this->getChildHtml('breadcrumbs') ?>
+		<div class="page-title category-title">
+			<?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
+				<a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
+			<?php endif; ?>
+			<h1><?php echo $name; ?></h1>
+		</div>
+		<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+		<?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
+			<div class="category-description std">
+				<?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
+				<?php if($second_description): ?>
+				<div class="readmore"><?php echo $this->__('Read more') ?></div>
+				<?php endif; ?>
+			</div>
+			<?php if($second_description): ?>
+			<div class="long-description std">
+				<?php $value = $_helper->categoryAttribute($_category, $second_description, 'second_description'); $processedValue = Mage::helper("cms")->getBlockTemplateProcessor()->filter($value);  echo $processedValue; ?>
+				<div class="readless"><?php echo $this->__('Show less') ?></div>
+			</div>
+			<?php endif; ?>
+		<?php endif; ?>
+	</div>
+</div>

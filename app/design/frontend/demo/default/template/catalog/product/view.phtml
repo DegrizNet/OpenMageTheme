@@ -1,0 +1,227 @@
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct();
+	$compare = Mage::helper('catalog/product_compare')->getItemCollection();
+	$compare_product = array();
+	foreach ($compare as $product) {
+		$compare_product[] = $product->getId();
+	}
+ ?>
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="product-view">
+    <div class="product-essential">
+    <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+        <?php echo $this->getBlockHtml('formkey') ?>
+        <div class="no-display">
+            <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+            <input type="hidden" name="related_product" id="related-products-field" value="" />
+        </div>
+
+        <div class="product-img-box">
+            <?php echo $this->getChildHtml('media') ?>
+        </div>
+
+        <div class="product-shop">
+			<div class="wrap">
+
+				<div class="product-name">
+					<h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+					<?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+				</div>
+
+				
+				<?php if ($_product->getShortDescription()):?>
+					<div class="short-description">
+						<div class="std"><?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?></div>
+					</div>
+				<?php endif;?>
+
+				<?php echo $this->getChildHtml('product_type_data') ?>
+
+				<div class="addblock">
+					<div class="wraps">
+						<div class="price-info">
+							<?php echo $this->getPriceHtml($_product); ?>
+							<?php echo $this->getChildHtml('bundle_prices') ?>
+							<?php echo $this->getTierPriceHtml() ?>
+						</div>
+						<p class="sku"><?php echo $this->__('SKU') ?>: <span><?php echo $_product->getSku() ?></span></p>
+						<?php if ($this->displayProductStockStatus()): ?>
+							<?php if ($_product->isAvailable()): ?>
+								<p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></p>
+							<?php else: ?>
+								<p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+							<?php endif; ?>
+						<?php endif; ?>
+
+						<?php echo $this->getChildHtml('uplink') ?>
+
+						<?php if (!$this->hasOptions()):?>
+							<div class="add-to-box">
+								<?php if($_product->isSaleable()): ?>
+									<?php echo $this->getChildHtml('addtocart') ?>
+								<?php endif; ?>
+							</div>
+							<?php echo $this->getChildHtml('extra_buttons') ?>
+						<?php endif; ?>
+
+						<?php echo $this->getChildHtml('other');?>
+
+						<?php if ($_product->isSaleable() && $this->hasOptions()):?>
+							<?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+							<?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+						<?php endif;?>
+						<?php echo $this->getChildHtml('degriz.outofstock') ?>
+
+						<?php if($produkt = $this->getLayout()->createBlock('cms/block')->setBlockId('produkt')->toHtml()): ?>
+						<div class="produkt">
+							<?php echo $produkt; ?>
+						</div>
+						<?php endif; ?>
+						<?php if($dodatno = $_product->getData('dodatno')): ?>
+						<div class="dodatno">
+							<?php echo $dodatno; ?>
+						</div>
+						<?php endif; ?>
+					</div>
+				</div>
+				<?php echo $this->getChildHtml('alert_urls') ?>
+
+				<?php echo $this->getChildHtml('extrahint') ?>
+
+				<ul class="accordion">
+
+					<?php if($attributes = $this->getChildHtml('attributes')): ?>
+					<li>
+						<div class="toggle show"><?php echo $this->__('Additional Information') ?></div>
+						<div class="inner show" style="display: block;">
+							<div class="opis std">
+								<?php echo $attributes; ?>
+							</div>
+						</div>
+					</li>
+					<?php endif; ?>
+					<?php if ($suitability = $this->getProduct()->getData('suitability')): ?>
+					<li>
+						<div class="toggle"><?php echo $this->__('Size, fit and material') ?></div>
+						<div class="inner">
+							<div class="opis std">
+								<?php echo $this->helper('catalog/output')->productAttribute($this->getProduct(), $suitability, 'suitability') ?>
+							</div>
+						</div>
+					</li>
+					<?php endif; ?>
+					<?php if ($_description = $this->getProduct()->getDescription()): ?>
+					<li>
+						<div class="toggle"><?php echo $this->__('Description') ?></div>
+						<div class="inner">
+							<div class="opis std">
+								<?php echo $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description') ?>
+							</div>
+						</div>
+					</li>
+					<?php endif; ?>
+					<?php if($delivery = $this->getLayout()->createBlock('cms/block')->setBlockId('dostava_tab')->toHtml()): ?>
+					<li>
+						<div class="toggle"><?php echo $this->__('Delivery') ?></div>
+						<div class="inner std">
+							<?php echo $delivery; ?>
+						</div>
+					</li>
+					<?php endif; ?>
+					<?php if($reviw = $this->getChildHtml('reviews')): ?>
+					<li>
+						<div class="toggle"><?php echo $this->__('Reviews') ?></div>
+						<div class="inner">
+							<div class="reviw priporocamo">
+								<div class="naslov">
+									<h2><?php echo $this->__('Customer reviews about <strong>%s</strong>',$_product->getName()) ?></h3>
+								</div>
+								<div class="addreviw"><?php echo $this->__('Write a review') ?></div>
+								<div class="clear"></div>
+								<div class="content">
+									<?php echo $reviw ?>
+								</div>
+							</div>
+						</div>
+					</li>
+					<?php endif; ?>
+
+				</ul>
+				<div class="clear"></div>
+			
+			</div>
+        </div>
+        <div class="clear"></div>        
+    </form>
+    <script type="text/javascript">
+    //<![CDATA[
+        var productAddToCartForm = new VarienForm('product_addtocart_form');
+        productAddToCartForm.submit = function(button, url) {
+            if (this.validator.validate()) {
+                var form = this.form;
+                var oldUrl = form.action;
+
+                if (url) {
+                   form.action = url;
+                }
+                var e = null;
+                try {
+                    this.form.submit();
+                } catch (e) {
+                }
+                this.form.action = oldUrl;
+                if (e) {
+                    throw e;
+                }
+
+                if (button && button != 'undefined') {
+                    button.disabled = true;
+                }
+            }
+        }.bind(productAddToCartForm);
+
+        productAddToCartForm.submitLight = function(button, url){
+            if(this.validator) {
+                var nv = Validation.methods;
+                delete Validation.methods['required-entry'];
+                delete Validation.methods['validate-one-required'];
+                delete Validation.methods['validate-one-required-by-name'];
+                // Remove custom datetime validators
+                for (var methodName in Validation.methods) {
+                    if (methodName.match(/^validate-datetime-.*/i)) {
+                        delete Validation.methods[methodName];
+                    }
+                }
+
+                if (this.validator.validate()) {
+                    if (url) {
+                        this.form.action = url;
+                    }
+                    this.form.submit();
+                }
+                Object.extend(Validation.methods, nv);
+            }
+        }.bind(productAddToCartForm);
+    //]]>
+    </script>
+    </div>
+    <div class="product-collateral">
+		<?php foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):?>
+		<div class="box-collateral <?php echo "box-{$alias}"?>">
+			<?php if ($title = $this->getChildData($alias, 'title')):?>
+			<h2><?php echo $this->escapeHtml($title); ?></h2>
+			<?php endif;?>
+			<?php echo $html; ?>
+		</div>
+		<?php endforeach;?>
+    </div>
+</div>
+<div class="clear"></div>
+<?php echo $this->getChildHtml('upsell_products') ?>
+
+<div class="clear"></div>
+<?php echo $this->getChildHtml('related') ?>
+<div class="clear"></div>

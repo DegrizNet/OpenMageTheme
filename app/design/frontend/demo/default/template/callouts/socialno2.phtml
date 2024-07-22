@@ -1,0 +1,66 @@
+<div class="faceboo">
+		<?php
+		//function to retrieve posts from facebook server
+		function loadFB($fbID){
+			//facebook feed url
+		    $url="http://www.facebook.com/feeds/page.php?id=".$fbID."&format=atom10";
+		    
+		    //load and setup CURL
+		    $c = curl_init();
+		    
+		    //set options and make it up to look like firefox
+			$userAgent = "Firefox (WindowsXP) - Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6";
+			curl_setopt($c, CURLOPT_USERAGENT, $userAgent);
+			curl_setopt($c, CURLOPT_URL,$url);
+			curl_setopt($c, CURLOPT_FAILONERROR, true);
+			curl_setopt($c, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($c, CURLOPT_AUTOREFERER, true);
+			curl_setopt($c, CURLOPT_RETURNTRANSFER,true);
+			curl_setopt($c, CURLOPT_VERBOSE, false);     
+		    curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+		    
+		    //get data from facebook and decode XML
+		    $page = curl_exec($c);
+		    $pxml= new SimpleXMLElement($page);
+		
+		    //close the connection
+		    curl_close($c);
+		     
+		    //return the data as an object
+		    return $pxml->entry;
+		}
+		
+		//BE SURE to enter your facebook id here
+		$fbid="315045128585718";
+		
+		//how may posts to show
+		$fbLimit=1;
+		//variable used to count how many weO~ve loaded
+		$fbCount=0;
+		
+		//call the function and get the posts from facebook
+		$myPosts=loadFB($fbid);
+		
+		//set timezone (change this to your timezone)
+		date_default_timezone_set("Europe/Ljubljana");
+		
+		//loop through all the posts we got from facebook
+		foreach($myPosts as $dPost){
+		      //get the post date / time and convert to unix time
+		      $dTime = strtotime($dPost->published);
+		      //format the date / time into something human readable
+		      //if you want it formatted differently look up the php date function
+		      $myTime=date("h:i, d. m. Y",$dTime);
+
+		      //output the date / time
+		      echo("<strong>".$myTime."</strong><br />");
+		      //output the message body
+		      echo($dPost->content);
+		      //add a line break to separate comments  
+		      //increment counter
+		      $fbCount++;
+		      //if we've outputted the number set above in fblimit we're done
+		      if($fbCount >= $fbLimit) break;    
+		}
+		?>
+</div>

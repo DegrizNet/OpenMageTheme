@@ -1,0 +1,28 @@
+<?php $cats = Mage::getModel('catalog/category')->load(81)->getChildren();
+$catIds = explode(',',$cats);
+$categories = array();
+	foreach($catIds as $catId) {
+	    $category = Mage::getModel('catalog/category')->load($catId); 
+	    $categories[$category->getName()] = array(
+	        'url' => $category->getUrl(),
+	        'img' => $category->getThumbnail(),
+	        'child' => $category->getChildren()
+	    );
+	}
+
+?>
+<div class="kategorije">
+    <?php if($category->getIsActive()): ?>
+   		<?php $i = 0; foreach($categories as $name => $data): ?>
+            <a href="<?php echo $data['url']; ?>" title="<?php echo $name; ?>" alt="<?php echo $name; ?>" class="naslov <?php if (strlen($name) >= 26):?>trojna<?php elseif (strlen($name) >= 14):?>dvojna<?php endif; ?><?php if(($i -1)%5 == 0 and $i != 0): ?> last<?php endif; ?>">
+               	<?php if($data['img']): ?>
+                	<img src="<?php echo Mage::getBaseUrl('media').'catalog/category/'.$data['img'];  ?>" />
+                <?php else: ?>
+                	<img src="<?php echo Mage::getBaseUrl('media').'catalog/category/base.jpg';  ?>" />
+                <?php endif; ?>
+                <h2><?php echo $name; ?></h2>
+            </a> 
+    	<?php $i++; endforeach; ?>
+    <?php endif; ?>
+    <div class="clear"></div>
+</div>

@@ -1,0 +1,45 @@
+<?php $_product = $this->getProduct(); ?>
+<?php $buttonTitle = $this->__('Add to Cart'); ?>
+<?php if($_product->isSaleable()): ?>
+    <div class="add-to-cart">
+        <?php if(!$_product->isGrouped()): ?>
+		<div class="quantity">
+			<input type="number" name="qty" class="form-control input-number" id="qty" min="1" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo __('Qty') ?>" class="input-text qty" />
+		</div>
+       <?php endif; ?>
+        <button type="button" title="<?php echo $buttonTitle ?>" id="product-addtocart-button" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+        <?php echo $this->getChildHtml('', true, true) ?>
+    </div>
+<?php endif; ?>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        // change discount display
+        jQuery('.swatch-link').click(function () {
+            if (jQuery(".addblock .price-box .old-price .price").length) {
+                var $oldprice = jQuery(".addblock .price-box .old-price .price").html();
+                $oldprice = $oldprice.replace(/\D/g,'');
+
+                var $specialprice = jQuery(".addblock .price-box .special-price .price").length
+                    ? jQuery(".addblock .price-box .special-price .price").html()
+                    : jQuery(".addblock .price-box .regular-price .price").html();
+
+                $specialprice = $specialprice.replace(/\D/g,'');
+
+                var $discount = 100 - (Number($specialprice) * 100 / Number($oldprice));
+                $discount = Math.round($discount);
+                $discount = '-' + $discount + '%';
+
+				if (jQuery(".addblock .ceneje").length == 0) {
+
+                    
+
+
+                jQuery(".addblock .ceneje").text($discount);
+                jQuery('.addblock .ceneje').show();
+            } else {
+                jQuery('.addblock .ceneje').hide();
+            }
+        });
+    });
+</script>

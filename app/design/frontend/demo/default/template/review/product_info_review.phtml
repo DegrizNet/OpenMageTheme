@@ -1,0 +1,39 @@
+<?php $_items = $this->getReviewsCollection()->getItems();?>
+<div class="add-review">
+	<?php echo $this->getLayout()->createBlock('review/form')->setBlockId('product.review.form')->toHtml() ?>
+</div>
+<?php if (count($_items)):?>
+<div class="collateral-box" id="product-customer-reviews">
+    <?php //echo $this->getChildHtml('toolbar') ?>
+    <ol>
+        <?php foreach ($_items as $_review):?>
+            <li>
+                <div class="review-area">
+                      <div class="ratings-list">
+                    <?php foreach ($_review->getRatingVotes() as $_vote): ?>
+                        <div class="rating-item">
+                            <span class="label"><?php echo $_vote->getRatingCode() ?></span>
+                            <div class="rating-box">
+                                <div class="rating" style="width: <?php echo $_vote->getPercent() ?>%;"></div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                    </div>
+                    <p><?php echo nl2br($this->htmlEscape($_review->getDetail())) ?></p>
+					<span class="review-by"> <?php echo $this->__('review by %s', "<b>".$this->htmlEscape($_review->getNickname())."</b>") ?></span>
+                </div>
+                <div class="clearer"></div>
+            </li>
+        <?php endforeach; ?>
+    </ol>
+	<div class="revbtn">
+		<div id="loadMore"><?php echo $this->__('Load more') ?></div>
+		<div id="showLess"><?php echo $this->__('Show less') ?></div>
+	</div>
+    <?php //echo $this->getChildHtml('toolbar') ?>
+</div>
+<?php else:?>
+<div class="collateral-box" id="product-customer-reviews">
+<ol><li><?php echo $this->__('Be the first to review this product'); ?></li></ol>
+</div>
+<?php endif;?>

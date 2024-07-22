@@ -1,0 +1,18 @@
+<?php
+$store = Mage::app()->getStore();
+$curentid = $store->getStoreId();
+$stores = Mage::getModel('core/store')->getCollection()->addFieldToFilter('is_active', 1)->addFieldToFilter('store_id', array('neq'=>0));
+$locale = $store->getName();
+$code = $store->getCode();
+?>
+
+<?php if(count($stores)>1): ?>
+<div class="select-language">
+	<div class="selection"><span><?php echo $locale; ?></span><span class="code"><?php echo $code; ?></span></div>
+    <div class="options">
+    <?php foreach ($stores as $_lang): $url = $_lang->getCurrentUrl(); ?>
+		<a class="lang-flag<?php if ($_lang->getCode() == $code):  ?> selected<?php endif;?>" href="<?php echo $url;?>"><?php echo $_lang->getName(); ?></a>
+    <?php endforeach;?>
+    </div>
+</div>
+<?php endif;?>

@@ -1,0 +1,44 @@
+<?php $bannerCollection = $this->_getCollection(); ?>
+<?php if(($bannerCollection->count())>0) : ?>
+<?php $imageCollection = $this->_getBannerImageCollection($bannerCollection); ?>
+<?php foreach ($imageCollection as $item) : ?>
+	<?php 
+		$height = $item['height']; 
+		$width = $item['width']; 
+		$height2 = round($height * 1.5); 
+		$width2 = round($width / 2.5); 
+		$content = $item['content']; 
+		$images = $this->getSortedImages($content);
+
+	?>
+	<?php if(isset($images) && !empty($images) && count($images)>0) : ?>
+<div class="banner container">
+	<div class="carousel owl-carousel owl-theme">
+	<?php $i =0; foreach($images as $image): $i++;
+	 $label = $image['label']; ?>
+			<a <?php if(!empty($image['link'])): ?> href="<?php echo $image['link'];?>"<?php else:?> href="#" <?php endif;?> title="<?php echo $label; ?>">
+				<?php if($i == 1): ?>
+				<link rel="preload" as="image" media="(max-width: 860px)" href="<?php echo $this->helper('banner')->resizeImg($image['file'], $width2, $height2);?>" as="image" />
+				<link rel="preload" as="image" media="(min-width: 861px)" href="<?php echo $this->helper('banner')->resizeImg($image['file'], $width, $height);?>" as="image" />
+				<?php endif; ?>
+				<picture>
+					<source media="(max-width: 860px)" srcset="<?php echo $this->helper('banner')->resizeImg($image['file'],$width2,$height2);?>" height="<?php echo $height2 ?>" width="<?php echo $width2 ?>">
+					<source media="(min-width: 861px)" srcset="<?php echo $this->helper('banner')->resizeImg($image['file'],$width,$height);?>" height="<?php echo $height ?>" width="<?php echo $width ?>">
+					<img <?php if($i > 1): ?>class="owl-lazy"<?php endif; ?> height="<?php echo $height ?>" width="<?php echo $width ?>" <?php if($i > 1): ?>data-<?php endif; ?>src="<?php echo $this->helper('banner')->resizeImg($image['file'],$width,$height);?>" <?php if(!empty($image['label'])): ?> alt="<?php echo $image['label'];?>"<?php endif?>/>
+				</picture>
+				<?php if($content = $image['html']): ?>
+				<div class="floater">
+					<?php if($label):?>
+					<div class="title"><?php echo $label; ?></div>
+					<?php endif; ?>
+					<div class="content"><?php echo $content; ?></div>
+				</div>
+				<?php endif; ?>
+			</a>
+	<?php endforeach;?>
+	</div>
+	<div class="clear"></div>
+</div>
+	<?php endif;?>
+<?php endforeach;?>
+<?php endif; ?>

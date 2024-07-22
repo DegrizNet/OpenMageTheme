@@ -1,0 +1,92 @@
+<?php 
+try 
+{
+
+	$pageid = '156478787748451'; 
+
+    $app_id = '1437714309818977';
+    $app_secret = '1f35df49bf9c7e2e96419e71aa216f62';
+
+    if(file_exists(Mage::getBaseDir('lib') . '/Facebook/autoload.php'))
+    {
+        require_once(Mage::getBaseDir('lib') . '/Facebook/autoload.php');
+       
+        $facebook = new Facebook\Facebook([
+          'app_id' => $app_id,
+          'app_secret' => $app_secret,
+          'default_graph_version' => 'v2.5',
+        ]);
+
+        $access_token = $facebook->getApp()->getAccessToken();
+        $facebook->setDefaultAccessToken($access_token);
+    
+        $pagefeed = $facebook->get('/' . $pageid . '/feed?fields=full_picture,story,link,message,created_time');
+        $pagefeed = json_decode($pagefeed->getBody());
+
+?>
+
+
+
+        <div class="block block-facebook">
+            <div class="block-title">
+                <strong><span><?php echo $this->__('Zadnje iz Facebooka') ?></span></strong>
+            </div>
+
+            <div class="block-content">
+                
+            <?php
+            if($pagefeed)
+            {
+                $i = 0;
+                foreach($pagefeed->data as $post)
+                {
+                    if($post->full_picture) 
+                    {
+						//$datum = date('d.m.Y', (strtotime($post->created_time))); ?>
+                        <div class="objava col-sm-2">  
+							<p>
+								<a href="<?php echo $post->link ?>" target="_blank">
+									<img src="<?php echo $post->full_picture ?>" />
+								</a>
+							</p>
+                        <?php /* if (empty($post->story) === false) 
+                        {
+							$opis = strip_tags($post->story);
+							if (strlen($opis) > 140) {
+								$opisCut = substr($opis, 0, 140);
+								$opis = substr($opisCut, 0, strrpos($opisCut, ' ')).'.. ';
+							} 
+                            echo "<p>" . $opis . "</p>";
+                        } 
+                        elseif (empty($post->message) === false) 
+                        {
+							$opis = strip_tags($post->message);
+							if (strlen($opis) > 140) {
+								$opisCut = substr($opis, 0, 140);
+								$opis = substr($opisCut, 0, strrpos($opisCut, ' ')).'.. ';
+							} 
+                            echo "<p>" . $opis . "</p>";
+                        }      */   
+                            
+                        echo "</div>"; // close fb-update div
+                            
+                        $i++;
+                    }                
+                    if ($i == 3) 
+                    {
+                        break;
+                    }
+                }  
+            }
+            ?>       
+		</div>
+	</div>
+
+<?php
+    } 
+}   
+catch(Exception $e)
+{
+    echo $e->getMessage();
+}
+?>

@@ -1,0 +1,21 @@
+<?php if ($this->getReviewsCount()): ?>
+    <div class="ratings">
+        <?php if ($this->getRatingSummary()):?>
+            <div class="rating-box">
+                <div class="rating" style="width:<?php echo $this->getRatingSummary() ?>%"></div>
+            </div>
+        <?php endif;?>
+        <p class="rating-links">
+            <?php echo $this->__('%s Review(s)', $this->getReviewsCount()) ?>
+        </p>
+    </div>
+<?php elseif ($this->getDisplayIfEmpty()): ?>
+    <div class="ratings">
+        <div class="rating-box">
+			<div class="rating" style="width:0%"></div>
+		</div>
+        <p class="rating-links">
+            <?php echo $this->__('%s Review(s)', 0) ?>
+        </p>
+    </div>
+<?php endif; ?>

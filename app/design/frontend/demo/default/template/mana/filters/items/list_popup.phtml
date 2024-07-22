@@ -1,0 +1,53 @@
+<?php 
+/**
+ * @category    Mana
+ * @package     Mana_Filters
+ * @copyright   Copyright (c) http://www.manadev.com
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+/** 
+ * @author Mana Team
+ */
+/* @var $this Mana_Filters_Block_Filter_Attribute */
+/* @var $filters Mana_Filters_Helper_Data */ $filters = Mage::helper(strtolower('Mana_Filters'));
+/* @var $showmore ManaPro_FilterShowMore_Helper_Data */ $showmore = Mage::helper(strtolower('ManaPro_FilterShowMore'));
+/* @var $jsonHelper Mana_Core_Helper_Json */
+$jsonHelper = Mage::helper('mana_core/json');
+$MAX_ROW_COUNT = $showmore->getMaxRowCount(); // 20
+$MAX_COLUMN_COUNT = $showmore->getMaxColumnCount(); // 4
+$items = $this->getItems();
+list($rowCount, $columnCount) = $showmore->getPopupDimensions($items, $MAX_ROW_COUNT, $MAX_COLUMN_COUNT);
+?>
+<div class="m-filter-popup">
+<ol class="m-rows" data-max-rows="<?php echo $MAX_ROW_COUNT ?>">
+    <?php for($rowIndex = 0; $rowIndex < $rowCount; $rowIndex++) : ?>
+    <li>
+        <ol class="m-columns">
+            <?php for ($columnIndex = 0; $columnIndex < $columnCount; $columnIndex++) : if ($columnIndex * $rowCount + $rowIndex < count($items)) : ?>
+            <?php $_item = $items[$columnIndex * $rowCount + $rowIndex]; ?>
+            <li <?php if ($_item->getMShowSelected()): ?>class="m-selected-ln-item"<?php endif; ?>>
+                <?php //if ($_item->getCount() > 0): ?>
+                <a href="#" title="<?php echo $this->escapeHtml($_item->getLabel()) ?>"
+                   data-item="<?php echo $jsonHelper->encodeAttribute($_item->getSeoData()) ?>"
+                   data-is-reverse="<?php echo $this->getFilterOptions()->getIsReverse() ?>"
+                   data-index="<?php echo $columnIndex * $rowCount + $rowIndex ?>">
+                    <span <?php if ($_item->getMShowSelected()): ?>class="m-selected-filter-item"<?php endif; ?> ><?php echo $this->escapeHtml($_item->getLabel()) ?></span>
+                </a>
+                <?php //else: echo $this->escapeHtml($_item->getLabel()); ?>
+                <?php //endif; ?>
+                <?php if (Mage::getStoreConfigFlag('mana_filters/display/count')) : ?>
+                    (<?php echo $_item->getCount() ?>)
+                <?php endif; ?>
+            </li>
+            <?php endif; endfor; ?>
+        </ol>
+    </li>
+    <?php endfor; ?>
+</ol>
+<div class="buttons-set">
+    <button type="button" title="<?php echo $this->__('Close') ?>" class="button m-close">
+        <span><span><?php echo $this->__('Close') ?></span></span></button>
+    <button type="button" title="<?php echo $this->__('Apply') ?>" class="button m-apply">
+        <span><span><?php echo $this->__('Apply') ?></span></span></button>
+</div>
+</div>

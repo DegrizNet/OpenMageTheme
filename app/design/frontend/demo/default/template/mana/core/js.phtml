@@ -1,0 +1,30 @@
+<?php
+/**
+ * @category    Mana
+ * @package     Mana_Core
+ * @copyright   Copyright (c) http://www.manadev.com
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+/* @var $this Mana_Core_Block_Js */
+
+/* @var $core Mana_Core_Helper_Data */
+$core = Mage::helper('mana_core');
+
+?>
+<script type="text/javascript"> 
+//<![CDATA[
+(function($) {
+<?php if ($_translations = $this->getTranslations()) : ?>
+	$.__(<?php echo json_encode($_translations) ?>);
+<?php endif; ?>
+<?php if ($_options = $this->getOptions()) : ?>
+	$.options(<?php echo json_encode($_options) ?>);
+<?php endif; ?>
+<?php if ($_config = $this->getConfig()) : ?>
+Mana.require(['singleton:Mana/Core/Config'], function (config) {
+    config.set(<?php echo $core->jsonForceObjectAndEncode($_config)?>);
+});
+<?php endif; ?>
+})(jQuery);
+//]]>
+</script> 

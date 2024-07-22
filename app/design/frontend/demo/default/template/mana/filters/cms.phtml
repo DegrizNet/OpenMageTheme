@@ -1,0 +1,29 @@
+<?php
+/**
+ * @category    Mana
+ * @package     Mana_Filters
+ * @copyright   Copyright (c) http://www.manadev.com
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/* @var $this Mage_Core_Block_Template */
+
+/* @var $_core Mana_Core_Helper_Data */
+$_core = Mage::helper('mana_core');
+
+/* @var $core Mana_Filters_Helper_Data */
+$_filters = Mage::helper('mana_filters');
+
+$_hideWhenNoFiltersApplied =
+    ($this->hasData('hide_when_no_filters_applied')
+        ? $this->getData('hide_when_no_filters_applied')
+        : Mage::getStoreConfigFlag('mana_filters/display/hide_cms_product_list'));
+$_isFilterApplied = ($state = $_filters->getLayer()->getState()) && $state->getFilters();
+$_isProductListVisible = $_isFilterApplied || !$_hideWhenNoFiltersApplied;
+
+?>
+<?php if ($_isProductListVisible) : ?>
+    <?php echo $this->getChildHtml('product_list') ?>
+<?php else: ?>
+    <?php echo $_core->getEmptyBlockHtml($this->getChild('product_list')) ?>
+<?php endif; ?>

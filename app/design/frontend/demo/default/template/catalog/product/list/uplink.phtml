@@ -1,0 +1,29 @@
+<?php
+if(count($this->getItemCollection()->getItems())): 
+	$_product =$this->getProduct();
+?>
+<div class="uplink">
+    <?php $this->resetItemsIterator() ?>
+	<ul>
+		<li>
+			<div class="itm current">
+				<img src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(78,60); ?>" width="90" height="60" id="product-collection-image-<?php echo $_product->getId(); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'thumbnail'), null, true) ?>" />
+				<span><?php echo $_product->getAttributeText('color'); ?></span>
+			</div>
+		</li>
+    <?php $i=1; $_columnCount = 20; for($_i=0;$_i<$this->getRowCount();$_i++): ?>
+        <?php for($_j=0;$_j<$this->getColumnCount();$_j++): ?>
+            <?php if($_product=$this->getIterableItem()): ?>
+				<li>
+					<a href="<?php echo $_product->getProductUrl() ?>" class="itm">
+						<img src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(78,60); ?>" width="90" height="60" id="product-collection-image-<?php echo $_product->getId(); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'thumbnail'), null, true) ?>" />
+						<span><?php echo $_product->getAttributeText('color'); ?></span>
+					</a>
+				</li>
+            <?php endif; ?>
+        <?php $i++; endfor; ?>
+    <?php endfor; ?>
+   	</ul>
+    <div class="clear"></div>
+</div>
+<?php endif; ?>

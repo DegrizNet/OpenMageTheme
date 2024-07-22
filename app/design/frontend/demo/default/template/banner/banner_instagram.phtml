@@ -1,0 +1,38 @@
+<?php $bannerCollection = $this->_getCollection(); 
+if($bannerCollection->count() > 0) : 
+	 $imageCollection = $this->_getBannerImageCollection($bannerCollection);
+?>
+<?php foreach ($imageCollection as $item) : ?>
+	<?php 
+		$height = $item['height']; 
+		$width = $item['width']; 
+
+		$heights = $height / 2; 
+		$widths =$width / 2; 
+
+		$content = $item['content']; 
+		$images = $this->getSortedImages($content);
+	?>
+	<?php if(isset($images) && !empty($images) && count($images)>0): ?>
+		<div class="binstagram">
+			<div class="owl-carousel owl-theme">
+			<?php foreach($images as $image):
+				$content = $image['html'];
+				$label = $image['label']; ?>
+				<a <?php if(!empty($image['link'])): ?> href="<?php echo $image['link'];?>"<?php else:?> href="#" <?php endif;?> class="wrap">
+					<picture>
+						<source media="(max-width: 640px)" srcset="<?php echo $this->helper('banner')->resizeImg($image['file'],$widths,$heights,true);?>" height="<?php echo $heights ?>px" width="<?php echo $widths ?>px">
+						<img loading="lazy" class="lazy" height="<?php echo $height ?>" width="<?php echo $width ?>" src="<?php echo $this->helper('banner')->resizeImg($image['file'],$width,$height,true);?>" alt="<?php if($label) { echo $label; } else { echo strip_tags($content); } ?>" />
+					</picture>	
+					<?php if($content) {?>
+						<div class="content">
+							<?php echo $content; ?>
+						</div>
+					<?php } ?>					
+				</a>
+			<?php endforeach;?>
+			</div>
+		</div>
+	<?php endif;?>
+<?php endforeach;?>
+<?php endif; ?>

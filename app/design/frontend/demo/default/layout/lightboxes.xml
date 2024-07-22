@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @category   MagentoPycho
+ * @package    MagentoPycho_Lightboxes
+ * @author     magepsycho@gmail.com
+ * @website    http://www.magepsycho.com
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<layout version="0.1.0">
+    <default>
+    	<reference name="head">
+            <block type="page/html_head" name="lightboxes_head" as="lightboxes_head" template="lightboxes/head.phtml">
+
+				<block type="lightboxes/lightboxes" name="lightboxes_inclusion" as="lightboxes_inclusion" template="lightboxes/lightboxes_inclusion.phtml" />
+				<block type="lightboxes/lightboxes" name="lightboxes_initialization" as="lightboxes_initialization" template="lightboxes/lightboxes_initialization.phtml" />
+			</block>
+    	</reference>
+    </default>
+    <catalog_product_view>
+        <reference name="product.info.media">
+            <action method="setTemplate" ifconfig="lightboxes/option/active"><template>lightboxes/media.phtml</template></action>
+
+				<block type="lightboxes/lightboxes" name="lightboxes_inclusion" as="lightboxes_inclusion" template="lightboxes/lightboxes_inclusion.phtml" />
+				<block type="lightboxes/lightboxes" name="lightboxes_initialization" as="lightboxes_initialization" template="lightboxes/lightboxes_initialization.phtml" />
+        </reference>
+    </catalog_product_view>
+    <review_product_list>
+        <reference name="product.info.media">
+            <action method="setTemplate" ifconfig="lightboxes/option/active"><template>lightboxes/media.phtml</template></action>
+
+				<block type="lightboxes/lightboxes" name="lightboxes_inclusion" as="lightboxes_inclusion" template="lightboxes/lightboxes_inclusion.phtml" />
+				<block type="lightboxes/lightboxes" name="lightboxes_initialization" as="lightboxes_initialization" template="lightboxes/lightboxes_initialization.phtml" />
+        </reference>
+    </review_product_list>
+</layout>

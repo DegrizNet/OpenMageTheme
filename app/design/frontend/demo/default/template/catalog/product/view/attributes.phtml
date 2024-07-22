@@ -1,0 +1,22 @@
+<?php
+    $_helper = $this->helper('catalog/output');
+    $_product = $this->getProduct()
+?>
+<?php if($_additional = $this->getAdditionalData()): ?>
+    <table class="data-table" id="product-attribute-specs-table">
+        <col width="25%" />
+        <col />
+        <tbody>
+		<?php foreach ($_additional as $_data): ?>
+			<?php $_attribute = $_product->getResource()->getAttribute($_data['code']);
+			if (!is_null($_product->getData($_attribute->getAttributeCode())) && (trim((string)$_attribute->getFrontend()->getValue($_product)) != '')) { ?>
+			<tr>
+				<th class="label"><?php echo $this->htmlEscape($this->__($_data['label'])) ?></th>
+				<td class="data"><?php echo $_helper->productAttribute($_product, $_data['value'], $_data['code']) ?></td>
+			</tr>
+			<?php } ?>
+		<?php endforeach; ?>
+        </tbody>
+    </table>
+    <script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
+<?php endif;?>

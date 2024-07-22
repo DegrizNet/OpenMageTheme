@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <!--CSS and JS Files-->
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>stripe_payments/css/express.css</name><group>defer</group></action>
+            <action method="addItem"><type>skin_js</type><name>stripe_payments/js/express.js</name><group>defer</group></action>
+        </reference>
+    </default>
+
+    <checkout_cart_index>
+        <reference name="checkout.cart.top_methods">
+            <block type="stripe_payments/button" name="checkout.cart.methods.stripeexpress.top" before="-">
+                <action method="setTemplate" ifconfig="payment/stripe_payments_express/cart_button">
+                    <template>stripe/express/cart_button.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </checkout_cart_index>
+
+    <catalog_product_view>
+        <reference name="product.info.addtocart">
+            <block type="stripe_payments/button" name="stripe_payments.stripeexpress.button" before="-">
+                <action method="setTemplate" ifconfig="payment/stripe_payments_express/product_button">
+                    <template>stripe/express/product_button.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </catalog_product_view>
+</layout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+@category    Mana
+@package     Mana_Filters
+@copyright   Copyright (c) http://www.manadev.com
+@license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ -->
+<!-- BASED ON SNIPPET: Static Visuals/Empty layout file -->
+<!-- This file defines the rules which should be applied when module mana_filters is installed and active. Typically, 
+rules consists of the following parts:
+	1. 	You say on which types of pages you would like your changes to be applied (in Magento wording, you need to 
+		specify layout handle), for example, layout handle "catalog_category_layered" selects all pages where 
+		specific category products are shown and where layered navigation is enabled. Layout handle "default" selects
+		every each page rendered by Magento.
+	2. 	You say in which blocks you would like to make the changes (in Magento wording you reference parent block).
+	3.	You say what changes you would like to apply to that block (you could specify to remove child blocks, to add
+		your own blocks, to invoke methods on referenced block).
+Review standard Magento layout XML's for full list of available layout handles, blocks to be referenced, and for 
+examples on what kind of actions can be applied to referenced blocks. 
+ -->
+<layout version="0.1.0">
+	<catalog_category_layered> <!-- find all category pages with layered navigation -->
+		<reference name="left"> <!-- find left column block -->
+			<remove name="catalog.leftnav"/> <!-- remove standard layered navigation -->
+            <remove name="enterprisecatalog.leftnav"/> <!-- remove enterprise layered navigation -->
+            <block type="mana_filters/view" name="mana.catalog.leftnav" before="-" template="catalog/layer/view.phtml"/>
+		</reference>
+		<reference name="head">
+			<action method="addCss"><stylesheet>css/mana_filters.css</stylesheet></action>
+		</reference>
+        <reference name="mana.catalog.leftnav">
+            <action method="setTemplate" ifconfig="mana_filters/advanced/enabled"><template>manapro/filteradvanced/view.phtml</template></action>
+        </reference>
+	</catalog_category_layered>
+	<catalogsearch_result_index> <!-- find all catalog search result page -->
+		<reference name="left"> <!-- find left column block -->
+			<remove name="catalogsearch.leftnav"/> <!-- remove standard layered navigation -->
+            <remove name="enterprisesearch.leftnav"/> <!-- remove enterprise layered navigation -->
+            <block type="mana_filters/search" name="mana.catalogsearch.leftnav" before="-" template="catalog/layer/view.phtml"/>
+		</reference>
+		<reference name="head">
+			<action method="addCss"><stylesheet>css/mana_filters.css</stylesheet></action>
+		</reference>
+        <reference name="mana.catalogsearch.leftnav">
+            <action method="setTemplate" ifconfig="mana_filters/advanced/enabled"><template>manapro/filteradvanced/view.phtml</template></action>
+        </reference>
+	</catalogsearch_result_index>
+	<cms_page_layered>
+		<reference name="left"> <!-- find left column block -->
+            <block type="mana_filters/view" name="mana.catalog.leftnav" before="-" template="catalog/layer/view.phtml"/>
+		</reference>
+		<reference name="head">
+			<action method="addCss"><stylesheet>css/mana_filters.css</stylesheet></action>
+		</reference>
+        <reference name="mana.catalog.leftnav">
+            <action method="setTemplate" ifconfig="mana_filters/advanced/enabled"><template>manapro/filteradvanced/view.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="cms.products" template="mana/filters/cms.phtml" />
+        </reference>
+	</cms_page_layered>
+</layout>

@@ -1,0 +1,62 @@
+<?php  $_cartQty = $this->getSummaryCount(); 
+$cartUrl = $this->getUrl('firecheckout/');
+?>
+<div class="block-cart">
+	<div class="carteks" id="carteks">
+    	<div class="cartek">
+        	<div class="title close" onclick="showJ2tCart();">
+                <div class="icon" title="<?php echo $this->__('Cart') ?>"></div>
+				<?php if($_cartQty) { ?><div class="amount"><?php echo $_cartQty; ?></div><?php } ?>
+			</div>
+			<div class="overlay" id="overlay" onclick="hideJ2tCart();"></div>
+            <div class="roza" id="roza">
+				<div class="wrap">
+					<?php $_items = $this->getRecentItems() ?>
+					<div class="ctitle">
+						<strong><?php echo $this->__('Your cart') ?>:</strong> <?php echo count($_items); ?>
+						<div class="close" onclick="hideJ2tCart();">
+							<svg class="CartOverlay__CloseButton-sc-1u34ctz-6 gUJBHe" width="19" height="19" viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg"><g stroke="#424242" stroke-width="3" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17L17 2M2 2l15 15"></path></g></svg>
+						</div>
+					</div>
+					<?php if(count($_items)): ?>
+					<div class="cart-products">
+						<ul id="cart-sidebar">
+						<?php foreach($_items as $_item): ?>
+							<?php echo $this->getItemHtml($_item) ?>
+						<?php endforeach; ?>
+						</ul>
+						<div class="clear"></div>
+					</div>
+					<?php endif ?>
+					<?php echo $this->getChildHtml('crosssell') ?>
+					<div class="btm">
+						<?php if ($_cartQty>0): ?>
+							<div class="summary">
+								<?php if ($this->canApplyMsrp()): ?>
+									<span class="map-cart-sidebar-total"><?php echo $this->__('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></span>
+								<?php else: ?>
+									<span class="label"><?php echo $this->__('Cart Subtotal:') ?></span> <?php echo Mage::helper('checkout')->formatPrice($this->getSubtotal()) ?>
+									<?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
+										<br />(<?php echo Mage::helper('checkout')->formatPrice($_subtotalInclTax) ?> <?php echo Mage::helper('tax')->getIncExcText(true) ?>)
+									<?php endif; ?>
+								<?php endif; ?>
+							</div>
+						<?php else: ?>
+							<div class="summary nul">
+								<span class="label"><?php echo $this->__('Cart Subtotal:') ?></span> <?php echo Mage::helper('checkout')->formatPrice(0); ?>
+							</div>
+						<?php endif ?>
+						<div class="btnz">
+						<?php if($_cartQty): ?>
+							<?php echo $this->getChildHtml('extra_actions') ?>
+							<button type="button" title="<?php echo $this->__('Checkout') ?>" class="button btn-cart" onclick="setLocation('<?php echo $cartUrl ?>')"><span><span><?php echo $this->__('Checkout') ?></span></span></button>
+						<?php endif ?>
+							<button type="button" title="<?php echo $this->__('Continue shopping') ?>" class="button close" onclick="hideJ2tCart();"><span><span><?php echo $this->__('Continue shopping') ?></span></span></button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,34 @@
+<?php echo $this->getChildHtml('notice') ?>
+<?php if(Mage::getModel('cms/block')->load('obvestilo')->getIsActive()): ?>
+<div class="top-container">
+	<div class="close"></div>
+	<div class="container">
+		<?php echo strip_tags($this->getLayout()->createBlock('cms/block')->setBlockId('obvestilo')->toHtml(),'<a>,<strong>,<u>,<p>'); ?>
+	</div>
+</div>
+<?php endif; ?>
+<div class="header">
+	<div class="header-container container">
+		<?php if ($this->getIsHomePage()):?> 
+            <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><h1><strong><?php echo $this->getLogoAlt() ?></strong><img width="150" height="50" src="<?php echo $this->getLogoSrc() ?>" alt="logo" /></h1></a>
+        <?php else:?>
+            <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img width="150" height="50" src="<?php echo $this->getLogoSrc() ?>" alt="logo" /></a>
+        <?php endif?>
+		<?php echo $this->getChildHtml('top_cart'); ?>
+		<a href="<?php echo Mage::getBaseUrl(); ?>customer/account/" class="myacc tooltip" title="<?php echo $this->helper('customer')->isLoggedIn() ? $this->helper('customer')->getCustomer()->getFirstname() : $this->__('My Account') ?>">
+			<div class="icon"></div>
+		</a>
+		<?php if($phone = Mage::getStoreConfig('general/store_information/phone')): ?>
+		<a href="tel:<?php echo $phone; ?>" class="phone" title="<?php echo $phone; ?>"><span><?php echo $phone; ?></span></a>
+		<?php endif; ?>
+		<?php if($email = Mage::getStoreConfig('trans_email/ident_general/email')): ?>
+		<a href="mailto:<?php echo $email; ?>" class="email" title="<?php echo $email; ?>"><span><?php echo $email; ?></span></a>
+		<?php endif; ?>
+		<?php echo $this->getChildHtml('store_language') ?>
+		<?php echo $this->getChildHtml('topSearch') ?>
+        <?php echo $this->getChildHtml('topContainer'); ?>
+		<?php echo $this->getChildHtml('topMenu') ?>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="overshade"></div>

@@ -1,0 +1,50 @@
+/* =Responsive css start
+-------------------------------------------------------------- */
+
+.box_skitter .container_skitter { width:100% !important; height:auto !important;}
+.box_skitter .container_skitter img { width:100%;}
+.box_skitter .label_skitter { width:100% !important;}
+.box_skitter .box_clone { width:100%; height:auto !important;}
+.box_skitter_large { max-width:100%;}
+
+
+/***** Standard 960px *****/
+@media only screen and (min-width:1200px) {
+/* .box_skitter { width:100% !important;}
+.box_skitter .container_skitter { width:100% !important;}
+.box_skitter .container_skitter img { width:100%;} */
+}
+
+
+
+/***** iPad Smaller than 959px *****/
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+.box_skitter { width:100% !important;}
+.box_skitter .container_skitter { width:100% !important; height:auto !important;}
+.box_skitter .container_skitter img { width:100%;}
+.box_skitter .label_skitter p { font-size:18px;}
+}
+
+
+
+/***** iPhone (landscape) *****/
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+.box_skitter { width:100% !important;}
+.box_skitter .container_skitter { width:100% !important; height:auto !important;}
+.box_skitter .container_skitter img { width:100%;}
+.box_skitter .label_skitter p { font-size:12px;}
+}
+
+
+
+
+/***** iPhone (portrait) *****/
+@media only screen and (max-width: 767px) {
+.box_skitter { width:100% !important; max-height:130px !important;}
+.box_skitter .container_skitter { width:100% !important; height:auto !important;}
+.box_skitter .container_skitter img { width:100%;}
+.box_skitter .box_clone { width:100%; height:auto !important;}
+.box_skitter .label_skitter p { font-size:14px;}
+}
+
+/* =Responsive css end

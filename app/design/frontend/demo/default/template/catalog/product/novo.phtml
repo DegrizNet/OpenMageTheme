@@ -1,0 +1,28 @@
+<?php if (($_products = $this->getProductCollection()) && $_products->getSize()): ?>
+<?php $_collectionSize = count($_products->getItems()) ?>
+<ul class="products-grid">
+<?php $i=0; foreach ($_products->getItems() as $_product): ?>
+       <li class="item<?php if($i%5==0):?> first<?php endif; ?>"> 
+			<!-- zacetek triger -->
+				<?php $_finalPrice = $this->helper('tax')->getPrice($_product, $_product->getFinalPrice());
+				     $_regularPrice = $this->helper('tax')->getPrice($_product, $_product->getPrice());
+				     if ($_regularPrice != $_finalPrice):
+				     $getpercentage = number_format($_finalPrice / $_regularPrice * 100, 2);
+				     $finalpercentage = 100 - $getpercentage; ?> 
+				   <div class="akcija"><?php echo number_format($finalpercentage, 0); ?>%</div>
+				<?php endif; ?> 
+			<!-- konec triger -->
+                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>"><img class="product-img" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(165) ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a>
+                <a href="<?php echo $_product->getProductUrl() ?>" class="product-name" title="<?php echo $this->htmlEscape($_product->getName()) ?>)"><?php echo $this->htmlEscape($_product->getName()) ?></a>
+                <?php echo $this->getPriceHtml($_product, true, '-new') ?>
+                
+                <?php if($_product->isSaleable()): ?>
+                <button type="button" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Dodaj v košarico') ?></span></span></button>
+                <?php else: ?>
+                <div class="out-of-stock"><?php echo $this->__('Out of stock') ?></div>
+                <?php endif; ?>
+                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" class="podrobno"><?php echo $this->__('Podrobnosti') ?></a>
+        </li>
+<?php $i++; endforeach; ?>
+</ul>
+<?php endif; ?> 

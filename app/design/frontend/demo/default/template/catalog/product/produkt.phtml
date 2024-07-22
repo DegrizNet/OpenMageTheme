@@ -1,0 +1,18 @@
+ <?php $home = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?> 
+<?php if(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) == $_SERVER['HTTP_HOST']) {
+		$linkec = 'javascript:history.back(1)';
+	} else {
+		 $linkec = $home.'vsi-produkti.html';
+	} ?>
+<a href="<?php echo $linkec ?>" class="nazaj"><span><</span> <?php echo $this->__('Nazaj na <strong>seznam artiklov</strong>') ?></a>
+
+<a href="https://www.facebook.com/zdrava.prehrana.recepti/app_521972471200958" class="knjiga"><span><?php echo $this->__('<strong>Brezplačna e-knjiga</strong><br/> zdravih receptov') ?></span></a>
+
+<a href="<?php echo $home ?>tinca-malinca-ti-obljublja" class="brezplacna"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('brezplacna')->toHtml() ?></a>
+    
+<a href="<?php echo $home ?>tinca-malinca-ti-obljublja" class="desno dostava tooltip" title="<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('dostava')->toHtml() ?>"><span><?php echo $this->__('Hitra dostava <br />2 delovna dneva') ?></span></a>
+<a href="<?php echo $home ?>tinca-malinca-ti-obljublja" class="desno eko tooltip" title="<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('eko')->toHtml() ?>"><span><?php echo $this->__('Original izdelki iz<br /> ekološke pridelave') ?></span></a>
+<a href="<?php echo $home ?>tinca-malinca-ti-obljublja" class="desno placilo tooltip" title="<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('placilo')->toHtml() ?>"><span><?php echo $this->__('Plačilo po povzetju <br />ali predračunu') ?></span></a>
+
+<a href="<?php echo $home ?>blog/kategorija/recepti" class="desno recepti" title="<?php echo $this->__('Zdravi recepti') ?>"><span><?php echo $this->__('Zdravi recepti') ?></span></a>
+<a href="<?php echo $home ?>blagovne-znamke.html" class="desno blagovna" title="<?php echo $this->__('Blagovne znamke') ?>"><span><?php echo $this->__('Blagovne znamke') ?></span></a>

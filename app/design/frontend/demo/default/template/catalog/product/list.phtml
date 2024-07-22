@@ -1,0 +1,104 @@
+<?php
+    $_productCollection=$this->getLoadedProductCollection();
+    $_helper = $this->helper('catalog/output');
+    $_params = $this->escapeHtml(json_encode(array('form_key' => $this->getFormKey())));
+	$lazy = Mage::getDesign()->getSkinUrl('images/blank.gif');
+
+	$compare = Mage::helper('catalog/product_compare')->getItemCollection();
+	$compare_product = array();
+	foreach ($compare as $product) {
+		$compare_product[] = $product->getId();
+	}
+	$dhelper = Mage::helper('degriz_core');
+	$width = $dhelper->getImageWidth();
+	$height = $dhelper->getImageHeight();
+?>
+<?php if($_productCollection->count()): ?>
+<div class="category-products">
+    <?php echo $this->getToolbarHtml() ?>
+    <?php $_collectionSize = $_productCollection->count() ?>
+    <ul class="products-grid top">
+    <?php $i=1; foreach ($_productCollection as $_product): ?>
+				<li id="<?php echo $id = $_product->getId(); ?>" class="item">
+				<div class="okvir">
+					<div  class="product-image">
+						<!-- zacetek triger -->
+						<?php  $now = date("Y-m-d H:m:s"); $newFromDate = $_product->getNewsFromDate(); $newToDate = $_product->getNewsToDate(); ?>                                               
+						<?php if($newFromDate < $now && $newToDate > $now): ?>
+							<div class="novo"><?php echo $this->__('novo') ?></div>
+						<?php endif; ?> 
+						<?php $_finalPrice = $this->helper('tax')->getPrice($_product, $_product->getFinalPrice());
+							 $_regularPrice = $this->helper('tax')->getPrice($_product, $_product->getPrice());
+							 if ($_regularPrice != $_finalPrice):
+							 $getpercentage = number_format($_finalPrice / $_regularPrice * 100, 2);
+							 $finalpercentage = 100 - $getpercentage; ?> 
+							<div class="ceneje <?php if($newFromDate < $now && $newToDate > $now): ?>premik<?php endif; ?> ">-<?php echo number_format($finalpercentage, 0); ?>%</div>
+						<?php endif; ?> 
+						<!-- konec triger -->
+						<?php if($i == 1): ?>
+							<link rel="preload" as="image" href="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize($width,$height); ?>" />
+						<?php endif; ?>
+						<a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'thumbnail'), null, true) ?>">
+							<img class="lazy" id="product-collection-image-<?php echo $_product->getId(); ?>" src="<?php echo $lazy; ?>" data-src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize($width,$height); ?>" width="<?php echo $width ?>" height="<?php echo $height ?>" id="product-collection-image-<?php echo $_product->getId(); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'thumbnail'), null, true) ?>" />
+						</a>
+						<?php
+						// Provides extra blocks on which to hang some features for products in the list
+						// Features providing UI elements targeting this block will display directly below the product name
+						if ($this->getChild('name.after')) {
+							$_nameAfterChildren = $this->getChild('name.after')->getSortedChildren();
+							foreach ($_nameAfterChildren as $_nameAfterChildName) {
+								$_nameAfterChild = $this->getChild('name.after')->getChild($_nameAfterChildName);
+								$_nameAfterChild->setProduct($_product);
+								echo $_nameAfterChild->toHtml();
+							}
+						}
+						?>
+					</div>
+					<div class="content">
+						<a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" class="product-name">
+							<h2>
+								<strong><?php echo $this->htmlEscape($_product->getName()) ?></strong>
+							</h2> 
+						</a>
+						<?php echo $this->getPriceHtml($_product, true) ?>
+					</div>
+					<div class="action">
+						<?php if($_product->isSaleable()): ?>
+							<?php if(($_product->getData('has_options')) or ($_product->isConfigurable())): ?>
+								<button type="button" title="<?php echo $this->__('Select options') ?>" class="button btn-cart options" onclick="setLocation('<?php echo $_product->getUrl() ?>')"><span><span><?php echo $this->__('Select options') ?></span></span></button>
+							<?php else: ?>
+								<form action="<?php $url= $this->getAddToCartUrl($_product); echo str_replace('checkout', 'j2tajaxcheckout/index/cart', $url); ?>" class="product_addtocart_form" method="post" id="product_addtocart_form_<?php echo $i; ?>"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+									<?php if(!$_product->isGrouped()): ?>
+									<div class="quantity">
+										<input type="number" name="qty" id="qty" maxlength="12" value="<?php echo ($this->getMinimalQty($_product)?$this->getMinimalQty($_product):1) ?>" />
+									</div>
+									<?php endif; ?>
+									<button type="button" class="button btn-cart <?php if(!$_product->isGrouped()): ?>qt<?php endif; ?>" id="product-addtocart-button" onclick="productAddToCartForm.submit(this,product_addtocart_form_<?php echo $i; ?>)"><span><span><span><?php echo $this->__('Add to Cart') ?></span></span></span></button>
+									<script type="text/javascript">var productAddToCartForm = new VarienForm('product_addtocart_form_<?php echo $i; ?>');</script>
+								 </form>
+							<?php endif; ?>
+						<?php else: ?>
+							<button type="button" title="<?php echo $this->__('Out of stock') ?>" class="button btn-cart disabled" onclick="setLocation('<?php echo $_product->getProductUrl() ?>')"><span><span><?php echo $this->__('Out of stock') ?></span></span></button>
+						<?php endif; ?>
+					</div>
+				</div>
+				</li>
+        <?php $i++; endforeach; ?>
+		</ul>
+    <div class="toolbar-bottom">
+        <?php echo $this->getToolbarHtml() ?>
+    </div>
+</div>
+<?php endif; ?>
+<?php
+// Provides a block where additional page components may be attached, primarily good for in-page JavaScript
+if ($this->getChild('after')) {
+    $_afterChildren = $this->getChild('after')->getSortedChildren();
+    foreach ($_afterChildren as $_afterChildName) {
+        $_afterChild = $this->getChild('after')->getChild($_afterChildName);
+        //set product collection on after blocks
+        $_afterChild->setProductCollection($_productCollection);
+        echo $_afterChild->toHtml();
+    }
+}
+?>

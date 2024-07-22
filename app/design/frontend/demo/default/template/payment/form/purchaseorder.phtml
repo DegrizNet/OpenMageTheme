@@ -1,0 +1,11 @@
+<?php $random_number = mt_rand(100000, 999999); ?>
+<div style="display:none;">
+<ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>" >
+    <li>
+        <label for="po_number" class="required"><em>*</em><?php echo $this->__('Purchase Order Number') ?></label>
+        <div class="input-box">
+            <input type="text" id="po_number" name="payment[po_number]" title="<?php echo $this->__('Purchase Order Number') ?>" class="input-text required-entry" value="<?php echo $this->htmlEscape($this->getInfoData('po_number')); ?> SI00 <?php  echo $random_number; ?>-<?php echo date("Y"); ?>" />
+        </div>
+    </li>
+</ul>
+</div>

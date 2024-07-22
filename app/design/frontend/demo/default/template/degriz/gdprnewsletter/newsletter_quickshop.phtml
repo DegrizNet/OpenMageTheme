@@ -1,0 +1,49 @@
+<?php if ($this->getIsActive()):
+
+    $rnd_str = "";
+    $base_str = "0123456789abcdefghijklmnopqrstuvwxyz";
+    $su = strlen($base_str) - 1;
+    $rnd_str = substr($base_str, rand(0,$su), 1).substr($base_str, rand(0,$su), 1).substr($base_str, rand(0,$su), 1);
+
+?>
+	<div class="degriz_gdprnewsletter gdprnewsletter_<?php echo $rnd_str; ?>">
+		<div class="gdpr_line"><?php echo $this->getText() ?>	<span href="javascript:void(0)" class="gdprnewsletter_box_open"><label class="gdprlabel_text" for="gdprpopup_<?php echo $rnd_str; ?>"><?php echo $this->getLink() ?></label></span></div>
+		<input class="gdprpopup-state" id="gdprpopup_<?php echo $rnd_str; ?>" type="checkbox" />
+		<div class="gdprpopup_class">
+			<label class="gdprpopup_bg" for="gdprpopup_<?php echo $rnd_str; ?>"></label>
+			<div class="gdprpopup_inner">
+				<div>
+					<label class="gdprpopup_close" for="gdprpopup_<?php echo $rnd_str; ?>"></label>
+			        <div class="gdprpopup_box_inner std">
+						<?php echo $this->getMessage() ?>
+			        </div>
+			        <div class="gdprpopup_box_subscribe">
+			            <div class="gdprpopup_box_subscribe_form">
+							<span class="button" href="javascript:void(0)"><label class="gdprlabel_button gdprpopup_yes" for="gdprpopup_<?php echo $rnd_str; ?>"><?php echo $this->__('Yes, I agree'); ?></label></span>
+							<span class="button" href="javascript:void(0)"><label class="gdprlabel_button gdprpopup_no" for="gdprpopup_<?php echo $rnd_str; ?>"><?php echo $this->__("No, i don't agree"); ?></label></span>
+			            </div>
+			        </div>
+		        </div>
+			</div>
+		</div>
+	</div>
+<script type='text/javascript'>
+	jQuery(function($) {
+	    var $gdprBlock = $('.gdprnewsletter_<?php echo $rnd_str; ?>');
+	    var $gdprInput = $('input[name="is_subscribed"]');
+	    $gdprBlock.find('.gdprpopup_yes').click(function(){
+	        $gdprInput.prop('checked', true);
+	        $gdprInput.trigger('change');
+	    });
+	    $gdprBlock.find('.gdprpopup_no').click(function(){
+	        $gdprInput.prop('checked', false);
+	        $gdprInput.trigger('change');
+	    });
+	    $gdprBlock.find('#gdprpopup_<?php echo $rnd_str; ?>').change(function() {
+	        $('body,html').toggleClass('modal_opened');
+	        $gdprBlock.find('.gdprpopup_class').toggleClass('popup_opened');
+	    });
+	});
+	jQuery.noConflict();
+</script>
+<?php endif; ?>

@@ -1,0 +1,33 @@
+<?php $bannerCollection = $this->_getCollection(); ?>
+<?php if(($bannerCollection->count())>0) : ?>
+<?php $imageCollection = $this->_getBannerImageCollection($bannerCollection);
+$lazy = Mage::getDesign()->getSkinUrl('images/blank.gif');  ?>
+<?php foreach ($imageCollection as $item) : ?>
+	<?php 
+		$height = $item['height']; 
+		$width = $item['width']; 
+		$content = $item['content']; 
+		$images = $this->getSortedImages($content);
+	?>
+	<?php if(isset($images) && !empty($images) && count($images)>0): ?>
+		<div class="reference">
+			<?php if($reference = $this->getLayout()->createBlock('cms/block')->setBlockId('reference')->toHtml()): ?>
+			<div class="title">
+				<?php echo $reference ?>
+			</div>
+			<?php endif; ?>
+			<ul class="owl-carousel owl-theme">
+			<?php foreach($images as $image): 		
+				$content = $image['html']; ?>
+				<li>
+					<a <?php if(!empty($image['link'])): ?> href="<?php echo $image['link'];?>"<?php else:?> href="#" <?php endif;?> class="wrap">
+						<img class="owl-lazy" height="<?php echo $height ?>px" width="<?php echo $width ?>px" src="<?php echo $lazy ?>" data-src="<?php echo $this->helper('banner')->resizeImg($image['file'],$width,$height,true);?>" <?php if(!empty($image['label'])): ?>alt="<?php echo $image['label'];?>"<?php else: ?>alt="<?php echo strip_tags($content);?>"<?php endif?>/>
+					</a>
+				</li>
+			<?php endforeach;?>
+			</ul>
+			<div class="clear"></div>
+		</div>
+	<?php endif;?>
+<?php endforeach;?>
+<?php endif; ?>

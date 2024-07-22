@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+@category    Mana
+@package     Mana_Core
+@copyright   Copyright (c) http://www.manadev.com
+@license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ -->
+<!-- BASED ON SNIPPET: Static Visuals/Empty layout file -->
+<!-- This file defines the rules which should be applied when module mana_core is installed and active. Typically, 
+rules consists of the following parts:
+	1. 	You say on which types of pages you would like your changes to be applied (in Magento wording, you need to 
+		specify layout handle), for example, layout handle "catalog_category_layered" selects all pages where 
+		specific category products are shown and where layered navigation is enabled. Layout handle "default" selects
+		every each page rendered by Magento.
+	2. 	You say in which blocks you would like to make the changes (in Magento wording you reference parent block).
+	3.	You say what changes you would like to apply to that block (you could specify to remove child blocks, to add
+		your own blocks, to invoke methods on referenced block).
+Review standard Magento layout XML's for full list of available layout handles, blocks to be referenced, and for 
+examples on what kind of actions can be applied to referenced blocks. 
+ -->
+<layout version="0.1.0">
+    <default>
+        <reference name="before_body_end">
+            <block type="mana_core/singleton" name="m_core_singletons"/>
+        </reference>
+    </default>
+    <jquery_core>
+		<reference name="head">
+		    <!-- BEGIN: files which are managed in System->Configuration->MANAdev->General->JavaScript Libraries -->
+            <!--<action method="addJs"><script>jquery/require.js</script></action>-->
+            <action method="addJs"><script>jquery/jquery.js</script></action>
+            <!-- END: files which are managed in System->Configuration->MANAdev->General->JavaScript Libraries -->
+
+            <action method="addJs"><script>jquery/jquery.printf.js</script></action>
+            <action method="addJs"><script>mana/core.js</script></action>
+			<action method="addCss"><stylesheet>css/mana_core.css</stylesheet></action>
+		</reference>
+        <reference name="m_core_singletons">
+            <action method="addSingletonBlock">
+                <type>mana_core/js</type>
+                <name>m_js</name>
+                <template>mana/core/js.phtml</template>
+            </action>
+            <action method="addSingletonBlock">
+                <type>core/template</type>
+                <name>m_wait</name>
+                <template>mana/core/wait.phtml</template>
+            </action>
+            <action method="addSingletonBlock">
+                <type>core/template</type>
+                <name>m_popup</name>
+                <template>mana/core/popup.phtml</template>
+            </action>
+        </reference>
+	</jquery_core>
+	<jquery_basic_effects>
+		<reference name="head">
+            <action method="addJs"><script>jquery/jquery.easing.js</script></action>
+            <action method="addJs"><script>jquery/advListRotator.js</script></action>
+		</reference>
+	</jquery_basic_effects>
+	<jquery_ui>
+		<reference name="head">
+			<action method="addCss"><stylesheet>css/jquery/ui.css</stylesheet></action>
+            <action method="addJs" ifconfig="mana_dev/debug/jquery"><script>jquery/jquery-ui.js</script></action>
+            <action method="addJs" ifconfig="mana_dev/debug/jquery_min"><script>jquery/jquery-ui.min.js</script></action>
+            <action method="addJs"><script>jquery/validate/jquery.validate.js</script></action>
+		</reference>
+	</jquery_ui>
+</layout>

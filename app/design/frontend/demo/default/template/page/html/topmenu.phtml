@@ -1,0 +1,16 @@
+<?php $_menu = $this->getHtml('level-top') ?>
+<?php if($_menu): ?>
+<div class="nav-container">
+	<div class="mobile">
+		<div class="maton">
+			<span><?php echo $this->__('Menu') ?></span>
+		</div>
+		<ul id="nav">
+			<li class="level0 nav-1 level-top"><a href="<?php echo Mage::getBaseUrl(); ?>" class="level-top"><span><?php echo $this->__('Home') ?></span></a></li>
+			<?php echo $_menu ?>
+			<?php $topmenu = strip_tags($this->getLayout()->createBlock('cms/block')->setBlockId('topmenu')->toHtml(),'<span>,<a>,<li>'); $topmenu = str_replace('<a', '<a class="level0 nav-3 level-top"', $topmenu); $topmenu = str_replace('<li', '<li class="level0 level-top"', $topmenu); echo $topmenu; ?>
+		</ul>
+	</div>
+	<div class="clear"></div>
+</div>
+<?php endif ?>

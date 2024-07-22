@@ -1,0 +1,57 @@
+<?php
+$helper = Mage::helper('lightboxes');
+if($helper->getConfig('lightbox_type') == 'fancybox'):
+?>
+<!-- FancyBox -->
+<script type="text/javascript" src="<?php echo $helper->getLightboxUrl(); ?>/fancybox/jquery.easing-1.3.pack.js"></script>
+<script type="text/javascript" src="<?php echo $helper->getLightboxUrl(); ?>/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+<script type="text/javascript" src="<?php echo $helper->getLightboxUrl(); ?>/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $helper->getLightboxUrl(); ?>/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+<!-- FancyBox -->
+<?php
+endif; //fancybox
+?>
+<?php
+    if($helper->getConfig('lightbox_type') == 'lightboxclone'):
+?>
+<!-- Lightbox Clone -->
+<script type="text/javascript" src="<?php echo $helper->getLightboxUrl(); ?>/jquery-lightbox-0.5/js/jquery.lightbox-0.5.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $helper->getLightboxUrl(); ?>/jquery-lightbox-0.5/css/jquery.lightbox-0.5.css" media="screen" />
+<!-- Lightbox Clone -->
+<?php
+    endif; //lightboxclone
+?>
+<?php
+    if($helper->getConfig('lightbox_type') == 'pirobox'):
+    $demo  = $helper->getConfig('theme', 'pirobox');
+?>
+<!-- Pirobox -->
+<link href="<?php echo $helper->getLightboxUrl(); ?>/pirobox/css_pirobox/<?php echo $demo; ?>/style.css" class="piro_style" media="screen" title="white" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<?php echo $helper->getLightboxUrl(); ?>/pirobox/js/pirobox.min.js"></script>
+<!-- Pirobox -->
+<?php
+    endif; //pirobox
+?>
+<?php
+    if($helper->getConfig('lightbox_type') == 'piroboxextended'):
+    $style  = $helper->getConfig('style', 'piroboxextended');
+?>
+<!-- Pirobox Extended -->
+<link rel="stylesheet" type="text/css" href="<?php echo $helper->getLightboxUrl(); ?>/pirobox_extended/css_pirobox/<?php echo $style; ?>/style.css" />
+<script type="text/javascript" src="<?php echo $helper->getLightboxUrl(); ?>/pirobox_extended/js/jquery-ui-1.8.2.custom.min.js"></script>
+<script type="text/javascript" src="<?php echo $helper->getLightboxUrl(); ?>/pirobox_extended/js/pirobox_extended_min.js"></script>
+<!-- Pirobox -->
+<?php
+    endif; //piroboxextended
+?>
+<?php
+    if($helper->getConfig('lightbox_type') == 'prettyphoto'):
+    $theme  = $helper->getConfig('theme', 'prettyphoto');
+?>
+<!-- Pirobox Extended -->
+<link rel="stylesheet" href="<?php echo $helper->getLightboxUrl(); ?>/prettyPhoto/css/prettyPhoto.css" type="text/css" media="screen" charset="utf-8" />
+<script src="<?php echo $helper->getLightboxUrl(); ?>/prettyPhoto/js/jquery.prettyPhoto.min.js" type="text/javascript" charset="utf-8"></script>
+<!-- Pirobox -->
+<?php
+    endif; //piroboxextended
+?>
