@@ -119,7 +119,6 @@ robots.txt
 sitemap_en.xml
 sitemap.xml
 .gitattributes
-js
 app/Mage.php
 app/etc
 app/bootstrap.php
@@ -133,3 +132,5 @@ app/design/frontend/base
 app/design/frontend/default
 app/design/frontend/rwd
 app/design/frontend/demo/default/locale
+/js
+error_log
