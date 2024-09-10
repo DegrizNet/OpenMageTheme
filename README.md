@@ -12,7 +12,9 @@ For the full functionality of this theme, the following additional modules are r
 - **KSv Banner**: Enhances banner management capabilities.
 https://github.com/DegrizNet/ksv_banner
 - **Mana Filters**: Provides advanced filtering options for products.
+https://www.manadev.com/magento-extensions/advanced-layered-navigation-ce
 - **J2T AddToCart**: Improves the add-to-cart experience.
+https://www.j2t-design.net/ (unavailable)
 - **Degriz Modules**: Custom modules developed by Degriz to further extend theme capabilities.
 https://github.com/DegrizNet/m1_degriz_core
 https://github.com/DegrizNet/m1_degriz_crop
